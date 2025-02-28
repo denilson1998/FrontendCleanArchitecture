@@ -1,0 +1,75 @@
+<form  [formGroup]="inventoryForm">
+    <div class="pt-4 flex-col flex ">
+        <div class="flex items-center justify-between rounded-full bg-jichi-grayscale-light-gray px-8 py-4">
+            <span class="text-jichi-text-black font-sans font-normal text-sm">
+                Controlar inventario
+            </span>
+    
+            <div class="flex items-end right-0 ">
+                <label class="relative inline-flex items-center cursor-pointer">
+                    <input type="checkbox" [checked]="inventoryForm.controls.isTrackingInventoryMovement.value"  class="sr-only peer" [formControl]="inventoryForm.controls.isTrackingInventoryMovement">
+                    <div
+                        class="w-11 h-6 bg-jichi-grayscale-gray peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-jichi-accent-light-green rounded-full peer  peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-jichi-grayscale-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-jichi-primary-green">
+                    </div>
+                </label>
+            </div>
+        </div>
+
+        <div *ngIf="inventoryForm.controls.isTrackingInventoryMovement.value;else noInventoryTemplate">
+                
+            <div class="flex items-center justify-between pt-12"  >
+                <span class="font-sans text-sm font-bold">
+                    Unidades del producto
+                </span>
+            </div>
+        
+            <div class="grid grid-cols-2 gap-8 pt-6">
+            
+                <jichi-text 
+                label="Cantidad disponible"  
+                [formControl]="inventoryForm.controls.quantity"
+                >
+                </jichi-text>
+        
+                <jichi-text 
+                label="Cantidad mínima"  
+                [formControl]="inventoryForm.controls.minimumQuantity"  
+                >
+                </jichi-text>
+                
+            </div>
+
+            <div>
+                <span class="font-sans font-normal text-jichi-grayscale-dark-gray text-sm">
+                    Te avisaremos cuando los productos lleguen a una cantidad igual o menor que el mínimo indicado.
+                </span>
+            </div>
+        </div>
+
+        <ng-template #noInventoryTemplate >
+            <div class="flex flex-col justify-center h-[72vh] items-center">
+               <div>
+                <img class="w-40 h-auto" src="assets/illustrations/inventory-boxes.png">
+               </div>
+
+                <div class="py-6">
+                    <h2 class="font-semibold font-sans text-jichi-text-black text-base ">
+                        ¡Que no se escape nada!
+                    </h2>
+                </div>
+
+                <div class="text-center px-4">
+                    <span class="font-sans font-normal text-jichi-grayscale-dark-gray text-xs ">
+                        Controlá las unidades disponibles de tu producto, recibí notificaciones de cantidad mínima y registrá los movimientos de tu inventario.
+                    </span>
+                </div>
+            </div>
+        </ng-template>
+        
+    
+        <div class="flex flex-col">
+            <jichi-add-button (onClick)="saveInventory()" [disable]="inventoryForm.invalid" class="w-[32rem] absolute bottom-0 self-center p-8" label="Registrar producto"></jichi-add-button>
+    
+        </div>
+    </div>
+</form>

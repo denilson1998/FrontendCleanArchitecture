@@ -1,0 +1,170 @@
+{
+  "pageNumber": 1,
+  "pageSize": 7,
+  "totalPages": 1,
+  "totalRecords": 1,
+  "result": [
+    {
+      "id": 1,
+      "organizationId": 2002,
+      "qrDetail": {
+        "qrId": "23030101035000000002",
+        "clientName": "MENDEZ BORDA MARTHA SONIA",
+        "description": "venta no. 1",
+        "amount": 50,
+        "bankAccountNumber": 3062861,
+        "currency": "Bolivianos",
+        "bankAccountType": "SavingAccount",
+        "qrType": "Generated",
+        "isPaid": true,
+        "encryptedQrString": "QoV1r9zP0SKFSOeJw0n9VlbkpIC7S2NzsvuQUF4s9b1y/mevInXaupCGR/LG+DjFGxGAps7ho07PJfpsi/eW3QHzuG6JzXRKAdMITQ7Xolvjz7g7hGuFOHgWWxxxJs7wNNHSdsY4iPxlmqNM8R6J/SrnlpnGLFkwkuO6cw46W+cYrMe2NWN1WRF2iep8SNOPX28g4wzQpXmPg7WgeEFtPyOhddlg17ZNwtYt0HXsuDcAy3dBXr4ywbaKOkByROC4gTCD1P2XfO5R85b328lyO8ILt35zAPAsGC4Xuvq5Renyi1vLkp/S176O3CKXvsIPRb+NE6pMMtaHKDWGQII4Ww==|53ddaecabd7ecb515aeb149257970c8849ae2307",
+        "createdAt": "2023-03-01T12:57:33.3799874",
+        "expirationDate": "2023-04-01T12:57:43.2790311",
+        "organizationId": 2002
+      },
+      "amount": 50,
+      "currency": "Bolivianos",
+      "paymentMethod": "QR",
+      "createdAt": "2023-03-01T12:57:33.3799858"
+    },
+    {
+      "id": 2,
+      "organizationId": 2002,
+      "qrDetail": {
+        "qrId": "23030101035000000002",
+        "clientName": "MENDEZ BORDA MARTHA SONIA",
+        "description": "venta no. 1",
+        "amount": 50,
+        "bankAccountNumber": 3062861,
+        "currency": "Bolivianos",
+        "bankAccountType": "SavingAccount",
+        "qrType": "Generated",
+        "isPaid": true,
+        "encryptedQrString": "QoV1r9zP0SKFSOeJw0n9VlbkpIC7S2NzsvuQUF4s9b1y/mevInXaupCGR/LG+DjFGxGAps7ho07PJfpsi/eW3QHzuG6JzXRKAdMITQ7Xolvjz7g7hGuFOHgWWxxxJs7wNNHSdsY4iPxlmqNM8R6J/SrnlpnGLFkwkuO6cw46W+cYrMe2NWN1WRF2iep8SNOPX28g4wzQpXmPg7WgeEFtPyOhddlg17ZNwtYt0HXsuDcAy3dBXr4ywbaKOkByROC4gTCD1P2XfO5R85b328lyO8ILt35zAPAsGC4Xuvq5Renyi1vLkp/S176O3CKXvsIPRb+NE6pMMtaHKDWGQII4Ww==|53ddaecabd7ecb515aeb149257970c8849ae2307",
+        "createdAt": "2023-03-01T12:57:33.3799874",
+        "expirationDate": "2023-04-01T12:57:43.2790311",
+        "organizationId": 2002
+      },
+      "amount": 50,
+      "currency": "Bolivianos",
+      "paymentMethod": "QR",
+      "createdAt": "2023-03-01T12:57:33.3799858"
+    },
+    {
+      "id": 3,
+      "organizationId": 2002,
+      "qrDetail": {
+        "qrId": "23030101035000000002",
+        "clientName": "MENDEZ BORDA MARTHA SONIA",
+        "description": "venta no. 1",
+        "amount": 50,
+        "bankAccountNumber": 3062861,
+        "currency": "Bolivianos",
+        "bankAccountType": "SavingAccount",
+        "qrType": "Generated",
+        "isPaid": true,
+        "encryptedQrString": "QoV1r9zP0SKFSOeJw0n9VlbkpIC7S2NzsvuQUF4s9b1y/mevInXaupCGR/LG+DjFGxGAps7ho07PJfpsi/eW3QHzuG6JzXRKAdMITQ7Xolvjz7g7hGuFOHgWWxxxJs7wNNHSdsY4iPxlmqNM8R6J/SrnlpnGLFkwkuO6cw46W+cYrMe2NWN1WRF2iep8SNOPX28g4wzQpXmPg7WgeEFtPyOhddlg17ZNwtYt0HXsuDcAy3dBXr4ywbaKOkByROC4gTCD1P2XfO5R85b328lyO8ILt35zAPAsGC4Xuvq5Renyi1vLkp/S176O3CKXvsIPRb+NE6pMMtaHKDWGQII4Ww==|53ddaecabd7ecb515aeb149257970c8849ae2307",
+        "createdAt": "2023-03-01T12:57:33.3799874",
+        "expirationDate": "2023-04-01T12:57:43.2790311",
+        "organizationId": 2002
+      },
+      "amount": 50,
+      "currency": "Bolivianos",
+      "paymentMethod": "QR",
+      "createdAt": "2023-03-01T12:57:33.3799858"
+    },
+    {
+      "id": 4,
+      "organizationId": 2002,
+      "qrDetail": {
+        "qrId": "23030101035000000002",
+        "clientName": "MENDEZ BORDA MARTHA SONIA",
+        "description": "venta no. 1",
+        "amount": 50,
+        "bankAccountNumber": 3062861,
+        "currency": "Bolivianos",
+        "bankAccountType": "SavingAccount",
+        "qrType": "Generated",
+        "isPaid": true,
+        "encryptedQrString": "QoV1r9zP0SKFSOeJw0n9VlbkpIC7S2NzsvuQUF4s9b1y/mevInXaupCGR/LG+DjFGxGAps7ho07PJfpsi/eW3QHzuG6JzXRKAdMITQ7Xolvjz7g7hGuFOHgWWxxxJs7wNNHSdsY4iPxlmqNM8R6J/SrnlpnGLFkwkuO6cw46W+cYrMe2NWN1WRF2iep8SNOPX28g4wzQpXmPg7WgeEFtPyOhddlg17ZNwtYt0HXsuDcAy3dBXr4ywbaKOkByROC4gTCD1P2XfO5R85b328lyO8ILt35zAPAsGC4Xuvq5Renyi1vLkp/S176O3CKXvsIPRb+NE6pMMtaHKDWGQII4Ww==|53ddaecabd7ecb515aeb149257970c8849ae2307",
+        "createdAt": "2023-03-01T12:57:33.3799874",
+        "expirationDate": "2023-04-01T12:57:43.2790311",
+        "organizationId": 2002
+      },
+      "amount": 50,
+      "currency": "Bolivianos",
+      "paymentMethod": "QR",
+      "createdAt": "2023-03-01T12:57:33.3799858"
+    },
+    {
+      "id": 5,
+      "organizationId": 2002,
+      "qrDetail": {
+        "qrId": "23030101035000000002",
+        "clientName": "MENDEZ BORDA MARTHA SONIA",
+        "description": "venta no. 1",
+        "amount": 50,
+        "bankAccountNumber": 3062861,
+        "currency": "Bolivianos",
+        "bankAccountType": "SavingAccount",
+        "qrType": "Generated",
+        "isPaid": true,
+        "encryptedQrString": "QoV1r9zP0SKFSOeJw0n9VlbkpIC7S2NzsvuQUF4s9b1y/mevInXaupCGR/LG+DjFGxGAps7ho07PJfpsi/eW3QHzuG6JzXRKAdMITQ7Xolvjz7g7hGuFOHgWWxxxJs7wNNHSdsY4iPxlmqNM8R6J/SrnlpnGLFkwkuO6cw46W+cYrMe2NWN1WRF2iep8SNOPX28g4wzQpXmPg7WgeEFtPyOhddlg17ZNwtYt0HXsuDcAy3dBXr4ywbaKOkByROC4gTCD1P2XfO5R85b328lyO8ILt35zAPAsGC4Xuvq5Renyi1vLkp/S176O3CKXvsIPRb+NE6pMMtaHKDWGQII4Ww==|53ddaecabd7ecb515aeb149257970c8849ae2307",
+        "createdAt": "2023-03-01T12:57:33.3799874",
+        "expirationDate": "2023-04-01T12:57:43.2790311",
+        "organizationId": 2002
+      },
+      "amount": 50,
+      "currency": "Bolivianos",
+      "paymentMethod": "QR",
+      "createdAt": "2023-03-01T12:57:33.3799858"
+    },
+    {
+      "id": 6,
+      "organizationId": 2002,
+      "qrDetail": {
+        "qrId": "23030101035000000002",
+        "clientName": "MENDEZ BORDA MARTHA SONIA",
+        "description": "venta no. 1",
+        "amount": 50,
+        "bankAccountNumber": 3062861,
+        "currency": "Bolivianos",
+        "bankAccountType": "SavingAccount",
+        "qrType": "Generated",
+        "isPaid": true,
+        "encryptedQrString": "QoV1r9zP0SKFSOeJw0n9VlbkpIC7S2NzsvuQUF4s9b1y/mevInXaupCGR/LG+DjFGxGAps7ho07PJfpsi/eW3QHzuG6JzXRKAdMITQ7Xolvjz7g7hGuFOHgWWxxxJs7wNNHSdsY4iPxlmqNM8R6J/SrnlpnGLFkwkuO6cw46W+cYrMe2NWN1WRF2iep8SNOPX28g4wzQpXmPg7WgeEFtPyOhddlg17ZNwtYt0HXsuDcAy3dBXr4ywbaKOkByROC4gTCD1P2XfO5R85b328lyO8ILt35zAPAsGC4Xuvq5Renyi1vLkp/S176O3CKXvsIPRb+NE6pMMtaHKDWGQII4Ww==|53ddaecabd7ecb515aeb149257970c8849ae2307",
+        "createdAt": "2023-03-01T12:57:33.3799874",
+        "expirationDate": "2023-04-01T12:57:43.2790311",
+        "organizationId": 2002
+      },
+      "amount": 50,
+      "currency": "Bolivianos",
+      "paymentMethod": "QR",
+      "createdAt": "2023-03-01T12:57:33.3799858"
+    },
+    {
+      "id": 7,
+      "organizationId": 2002,
+      "qrDetail": {
+        "qrId": "23030101035000000002",
+        "clientName": "MENDEZ BORDA MARTHA SONIA",
+        "description": "venta no. 1",
+        "amount": 50,
+        "bankAccountNumber": 3062861,
+        "currency": "Bolivianos",
+        "bankAccountType": "SavingAccount",
+        "qrType": "Generated",
+        "isPaid": true,
+        "encryptedQrString": "QoV1r9zP0SKFSOeJw0n9VlbkpIC7S2NzsvuQUF4s9b1y/mevInXaupCGR/LG+DjFGxGAps7ho07PJfpsi/eW3QHzuG6JzXRKAdMITQ7Xolvjz7g7hGuFOHgWWxxxJs7wNNHSdsY4iPxlmqNM8R6J/SrnlpnGLFkwkuO6cw46W+cYrMe2NWN1WRF2iep8SNOPX28g4wzQpXmPg7WgeEFtPyOhddlg17ZNwtYt0HXsuDcAy3dBXr4ywbaKOkByROC4gTCD1P2XfO5R85b328lyO8ILt35zAPAsGC4Xuvq5Renyi1vLkp/S176O3CKXvsIPRb+NE6pMMtaHKDWGQII4Ww==|53ddaecabd7ecb515aeb149257970c8849ae2307",
+        "createdAt": "2023-03-01T12:57:33.3799874",
+        "expirationDate": "2023-04-01T12:57:43.2790311",
+        "organizationId": 2002
+      },
+      "amount": 50,
+      "currency": "Bolivianos",
+      "paymentMethod": "QR",
+      "createdAt": "2023-03-01T12:57:33.3799858"
+    }
+  ],
+  "errors": null
+}

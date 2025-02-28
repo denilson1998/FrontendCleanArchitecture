@@ -1,0 +1,16 @@
+<select
+  class="select-text"
+  [formControl]="inputControl"
+  [class.is-invalid]="inputControl.invalid && inputControl.touched"
+  [class.is-valid]="inputControl.valid && inputControl.touched"
+  required
+>
+  <option [value]="" disabled selected></option>
+  <option [value]="item.name" *ngFor="let item of items">
+    {{ item.name }}
+  </option>
+</select>
+<span class="select-highlight"></span>
+<span class="select-bar"></span>
+<label class="select-label desktop">¿A qué rubro pertenece tu negocio?*</label>
+<label class="select-label mobile">Rubro de tu negocio*</label>

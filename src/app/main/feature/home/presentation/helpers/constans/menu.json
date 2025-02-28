@@ -1,0 +1,75 @@
+[
+  {
+    "option": "Inventario",
+    "route": "/app/products/lista",
+    "icon": "inventory-filled-no"
+  },
+  {
+    "option": "Ventas",
+    "route": "orders",
+    "icon": "cart-filled-no",
+    "lastOption": "",
+    "children": [
+      {
+        "option": "Vender",
+        "route": "orders/create"
+      },
+      {
+        "option": "Historial de ventas",
+        "route": "orders/"
+      }
+    ]
+  },
+  {
+    "option": "Estadisticas",
+    "route": "Estadisticas",
+    "icon": "stadistic-filled-no",
+    "children": [
+      {
+        "option": "Conecta"
+      },
+      {
+        "option": "Option 2"
+      },
+      {
+        "option": "Option 3"
+      }
+    ]
+  },
+  {
+    "option": "Clientes",
+    "route": "clientes",
+    "icon": "profile-filled-no",
+    "lastOption": ""
+  },
+  {
+    "option": "Usuarios",
+    "route": "usuarios",
+    "icon": "users-filled-no"
+  },
+  {
+    "option": "Delivery",
+    "route": "Delivery",
+    "icon": "delivery-filled-no",
+    "lastOption": ""
+  },
+  {
+    "option": "QRs",
+    "route": "",
+    "icon": "qr-light",
+    "children": [
+      {
+        "option": "Conectá tu banco",
+        "route": "payments/link-account"
+      },
+      {
+        "option": "Códigos QR",
+        "route" : "payments/lista"
+      },
+      {
+        "option": "Pagos",
+        "route" : "payments/payment"
+      }
+    ]
+  }
+]

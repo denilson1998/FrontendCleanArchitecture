@@ -1,0 +1,34 @@
+
+<div [class]="styleClass" class="master">
+    <input [type]="parsedInputType"
+      #input
+      [required]="required"
+      [disabled]="disabled"
+      name="text-input"
+      [placeholder]="placeholder"
+      class="inputs"
+      (paste)="onPaste($event)"
+      (keydown)="onKeyDown($event)"
+      (keyup)="onKeyUp($event, input.value)"
+      (blur)="onChange($event, input.value)"
+      [ngClass]="{ 'border-red': errors.length > 0 && formControl?.touched }"
+      lang="nl"
+    />
+    {{type}}
+    <input type="number" step="0.01" lang="nl"/>
+    <label for="text-input"
+      class="labels">
+      {{ label }}<span *ngIf="required && showRequired">*</span>
+    </label>
+    <ng-container *ngIf="img">
+      <img *ngIf="icons != ''; else default" class="img" [src]="icons" alt="logo">
+      <ng-template #default>
+        <sarao-icon class="img" [icon]="iconSarao" [color]="iconColorSarao"></sarao-icon>
+      </ng-template>
+
+    </ng-container>
+
+    <div *ngIf="errorsOri.length > 0 && formControl?.touched" class="error-input">
+          <p *ngFor="let error of errorsOri">{{ error | json }}</p>
+    </div>
+  </div>

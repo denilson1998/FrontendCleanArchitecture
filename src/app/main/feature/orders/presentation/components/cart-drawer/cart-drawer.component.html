@@ -1,0 +1,95 @@
+<div class="p-4 relative overflow-x-hidden shadow-2xl rounded-lg bg-jichi-grayscale-white height-content select-none">
+    <div *ngIf="currentDrawer === 'cart'">
+        <h5 class="flex justify-center items-center mb-4 text-base font-semibold text-jichi-text-black font-sans">
+            Carrito
+        </h5>
+        <div *ngIf="createSalesOrderState.cart as cart">
+            <ng-container *ngIf="cart.items.length > 0">
+                <div class="mt-4">
+                    <h5>Productos</h5>
+                    <div *ngFor="let cartItem of cart.items" class="flex align-center overflow-hidden rounded-md shadow">
+                        <div class="flex w-full" user-select="none">
+                            <img class="w-20" [src]="cartItem.product.imageUri" alt="">
+                            <div class="flex w-full justify-between">
+                                <p>
+                                    {{cartItem.product.name}}
+                                </p>
+                                <div>
+                                    <div>
+                                        Bs<input class="w-12 text-center" type="number"
+                                        (keydown)="forceOnlyTwoDecimals($event)"
+                                        [(ngModel)]="cartItem.unitPrice"
+                                        (ngModelChange)="roundUnitPriceDecimals(cartItem)"
+                                        >
+                                    </div>
+                                    <div class="flex w-24">
+                                        <sarao-icon class="cursor-pointer" (click)="removeCartItemQuantity(cartItem.product.id)" icon="remove-circle" color="#98B0CC" ></sarao-icon>
+                                        <input (change)="inputQuantityChange($event.target, cartItem.product.id)" class="w-12 text-center" type="number" [(ngModel)]="cartItem.quantity">
+                                        <sarao-icon class="cursor-pointer" (click)="addCartItemQuantity(cartItem.product.id)" icon="add-circle" color="#98B0CC"></sarao-icon>
+                                    </div>
+    
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <h5 class="text-end">Total: {{cart.totalPrice}}</h5>
+                </div>
+
+                <div class="mt-4">
+                    <div class="flex justify-between">
+                        <h5>Cliente</h5>
+                        <div (click)="openCustomersList()">Seleccionar cliente</div>
+                    </div>
+                    <p>{{createSalesOrderState.customer?.fullName}}</p>
+                </div>
+
+                <div class="mt-4">
+                    <div class="flex">
+                        <h5>Método de pago</h5>
+                    </div>
+                    <div class="flex justify-between">
+                        <sarao-input
+                            type="number"
+                            label="Efectivo"
+                            [(ngModel)]="createSalesOrderState.paymentMethods.cash">
+                        </sarao-input>
+                    </div>
+                    <div class="flex justify-between">
+                        <sarao-input
+                            type="number"
+                            label="Tarjeta"
+                            [(ngModel)]="createSalesOrderState.paymentMethods.card">
+                        </sarao-input>
+                    </div>
+                    <div class="flex justify-between">
+                        <sarao-input
+                            type="number"
+                            label="Transferencia"
+                            [(ngModel)]="createSalesOrderState.paymentMethods.transference">
+                        </sarao-input>
+                    </div>
+                    <div class="flex justify-between">
+                        <p>QR:</p>
+                        <div (click)="goToConnectBank()" *ngIf="!createSalesOrderState.canGenerateQr">Conectar cuenta de banco</div>
+                        <input *ngIf="createSalesOrderState.canGenerateQr" type="number" [(ngModel)]="createSalesOrderState.paymentMethods.qr">
+                    </div>
+
+                    <div class="flex justify-between">
+                        <p>Monto pendiente:</p>
+                        <div >{{createSalesOrderState.missingTotal}}</div>
+                    </div>
+
+                    <div class="flex justify-between">
+                        <p>Cambio:</p>
+                        <div>{{createSalesOrderState.change}}</div>
+                    </div>
+                    <ng-content ></ng-content>
+                </div>
+            </ng-container>
+        </div>
+    </div>
+    <div *ngIf="currentDrawer === 'customer'">
+        <customers-list-for-selection [showCreateClientForm]="true" (selectedCustomersChange)="handleCustomersChange($event)" [multipleSelection]="false"></customers-list-for-selection>
+    </div>
+
+</div>

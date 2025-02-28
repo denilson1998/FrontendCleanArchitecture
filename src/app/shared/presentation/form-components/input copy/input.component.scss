@@ -1,0 +1,131 @@
+// REMOVE THE UP AND DOWN ARROWS IN THE INPUT TYPE NUMBER
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+// SIZE AND COLOR OF PLACEHOLDER WHEN PUTTING IT IN FOCUS
+input:focus::placeholder {
+  color: #98b0cc;
+}
+
+input::placeholder {
+  color: transparent;
+  font-size: 13px;
+}
+
+// STYLIZE THE LABEL
+.labels {
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 17px;
+  line-height: 23px;
+  position: absolute;
+  color: #61709d;
+  transition-duration: 300ms;
+  top: 8px;
+  z-index: -10;
+  transform-origin: 0;
+}
+
+// STYLIZE THE LABEL BY PUTTING IT IN FOCUS
+input:focus + .labels {
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 20px;
+  left: 0px;
+  color: #98b0cc;
+  transform: scale(0.75);
+  transform: translateY(-24px);
+}
+
+input:placeholder-shown {
+  transform: scale(1);
+  transform: translateY(0px);
+}
+
+// STYLIZE THE INPUT
+.inputs {
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 400;
+  color: #090429;
+  display: block;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 0px;
+  padding-right: 0px;
+  width: 100%;
+  font-size: 17px;
+  line-height: 23px;
+  background-color: transparent;
+  border-width: 0px;
+  border-bottom-width: 2px;
+  border-color: rgb(209 213 219);
+  appearance: none;
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
+.inputs:focus {
+  outline: 2px solid transparent;
+  outline-offset: 1px;
+  border-color: #00c2dc;
+  border-bottom-width: 3px;
+}
+
+// CONTAINER CLASS
+.master {
+  position: relative;
+  z-index: 0;
+  width: 100%;
+  margin-bottom: 24px;
+}
+
+// STYLIZE THE ERROR TEXT
+.error-input {
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 13px;
+  line-height: 18px;
+  color: #d23a4c;
+}
+
+// IMAGE CLASS
+.img {
+  width: 24px;
+  height: 24px;
+  position: absolute;
+  top: 10px;
+  bottom: 0px;
+  right: 0px;
+  display: flex;
+  align-items: center;
+}
+
+.border-red {
+  outline-offset: 1px;
+  border-bottom: 2px solid #d23a4c !important;
+}
+
+// KEEP THE LABEL FLOATING
+.inputs:focus + .labels, .inputs:not(:placeholder-shown) + .labels {
+  font-family: "Open Sans";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 20px;
+  left: 0px;
+  color: #98b0cc;
+  transform: scale(0.75);
+  transform: translateY(-24px);
+}

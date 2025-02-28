@@ -1,0 +1,18 @@
+#Front
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: front-conf
+  namespace: "#{{Namespace}}#"
+data:
+  TZ: America/La_Paz
+  ASPNETCORE_ENVIRONMENT: "#{{ASPNETCOREENVIRONMENT}}#"
+  auth0__domain: "#{{auth0domain}}#"
+  auth0__clientId: "#{{auth0clientId}}#"
+  onboardingApi: "#{{onboardingApi}}#"
+  salesApi: "#{{salesApi}}#"
+  stocksApi: "#{{stocksApi}}#"
+  paymentsApi: "#{{paymentsApi}}#"
+  jichiCatalogo: "#{{jichiCatalogo}}#"
+  
+  

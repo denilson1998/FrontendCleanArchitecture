@@ -1,0 +1,33 @@
+<div class="min-h-[54px] pb-4">
+  <div class="relative z-0 w-full   group">
+    <div *ngIf="type != 'phone';else phoneInputTemplate">
+      <input #input required name="text-input" placeholder=" "
+        class="block py-1.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none    focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+        type="{{ type }}" [value]="formControl.value" (change)="onChange($event, input.value)" />
+      <label for="text-input"
+        class="peer-focus:font-medium absolute text-sm text-jichi-grey duration-300 transform -translate-y-6 scale-75 top-2 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-jichi-blue  peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">{{
+        label }}<span *ngIf="required && showRequired">*</span>
+      </label>
+      <img *ngIf="icon != '' || undefined" class="w-7 h-7 absolute inset-y-0 pt-2 right-0 flex items-center pr-2" [src]="icon" alt="logo">
+    </div>
+
+    <ng-template #phoneInputTemplate>
+      <div class="flex items-center overflow-hidden">
+        <span class="pl-7 absolute inset-y-0 pt-2 left-0 text-sm text-gray-900">+591</span>
+        <input #input required name="text-input" placeholder=" "
+          class="block py-1.5 pl-16 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none    focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+          type="{{ type }}" (blur)="onChange($event, input.value)" />
+        <label for="text-input"
+          class="pl-16 peer-focus:font-medium absolute text-sm text-jichi-grey duration-300 transform -translate-y-6 scale-75 top-2 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-jichi-blue  peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">{{
+          label }}<span *ngIf="required && showRequired">*</span>
+        </label>
+        <img class="w-7 h-7 absolute inset-y-0 pt-2 left-0  items-center block " src="assets/icons/boliviaflag.svg" alt="logo">
+      </div>
+    </ng-template>
+
+    <div *ngIf="errors.length > 0 && formControl.touched" class="text-red text-xs pt-2">
+      <p *ngFor="let error of errors">{{ error }}</p>
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,20 @@
+<form [formGroup]="editProductForm">
+    <div>
+        <div class="p-4 ">
+            <jichi-text class="pb-6" [formControl]="editProductForm.controls.name" label="Nombre del producto">
+            </jichi-text>
+
+            <jichi-text [formControl]="editProductForm.controls.description" label="Descripción">
+            </jichi-text>
+
+            <jichi-text [formControl]="editProductForm.controls.skuCode" label="Código del producto">
+            </jichi-text>
+        </div>
+    </div>
+
+    <div class="flex flex-col">
+        <jichi-add-button (onClick)="submitForm()" [disable]="!editProductForm.valid"
+            class="w-[32rem] absolute bottom-0 self-center p-8" label="Continuar"></jichi-add-button>
+
+    </div>
+</form>

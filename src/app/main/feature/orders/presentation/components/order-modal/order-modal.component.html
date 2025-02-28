@@ -1,0 +1,74 @@
+<div *ngIf="currentDrawer === 'order'">
+    <div>
+        <div class="flex justify-between">
+            <h5>Cliente</h5>
+            <div *ngIf="updateSalesOrderState" (click)="openCustomersList()">Seleccionar cliente</div>
+        </div>
+        <p>{{order.customer.fullName}}</p>
+        <p>{{order.customer.phoneNumber}}</p>
+
+        Fecha de venta: {{order.createdAt | date: 'dd/MM/yyyy'}}
+
+        <div *ngIf="sellerAuth0Id">
+            <order-seller-card [userAuth0Id]="sellerAuth0Id"></order-seller-card>
+        </div>
+        <!-- <p>{{order.user.fullName}}</p> -->
+    </div>
+
+    <div>
+        <h5>Producto entregado</h5>
+        <p>{{order.isDelivered ? 'Entregado': 'No entregado'}}</p>
+        <h5 class="mt-4">Venta pagada</h5>
+        <p>{{order.isPaid ? 'Pagado': 'No pagado'}}</p>
+    </div>
+
+    <div>
+        <h5>Resumen de productos</h5>
+        <div class="flex justify-between" *ngFor="let orderItem of order.orderItems">
+            <p>{{orderItem.quantity}} x {{orderItem.productName}}</p>
+            <p>Bs{{orderItem.price}}</p>
+        </div>
+        <div class="flex justify-between">
+            <p>Subtotal:</p>
+            <p>{{order.total}}</p>
+        </div>
+    </div>
+
+    <div>
+        <h5>Pagos</h5>
+        <div *ngIf="bill">
+            <div *ngFor="let payment of bill.payments" class="flex justify-between">
+                <p>
+                    {{payment.createdAt | date: 'dd/MM/yyyy'}} - {{payment.paymentMethodInSpanish}}
+                </p>
+                <p>Bs{{payment.paidAmount}}</p>
+            </div>
+            <div class="flex justify-between">
+                <p>Total pagado:</p>
+                <p>Bs{{bill.paidAmount}}</p>
+            </div>
+            <div class="flex justify-between">
+                <p>Total venta:</p>
+                <p>Bs{{bill.totalAmount}}</p>
+            </div>
+            <div class="flex justify-between">
+                <p>Cambio:</p>
+                <p>Bs{{bill.change}}</p>
+            </div>
+        </div>
+    </div>
+
+    <div>
+        <h5>QRs</h5>
+    </div>
+    <sarao-button
+        *ngIf="updateSalesOrderState?.orderHasChanged"
+        [disabled]="updateSalesOrderState?.orderHasChanged === false"
+        (click)="updateOrder()"
+        color="Primary">
+        Guardar
+    </sarao-button>
+</div>
+<div *ngIf="currentDrawer === 'customer'">
+    <customers-list-for-selection [showCreateClientForm]="true" (selectedCustomersChange)="handleCustomersChange($event)" [multipleSelection]="false"></customers-list-for-selection>
+</div>

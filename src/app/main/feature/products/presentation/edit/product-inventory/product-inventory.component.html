@@ -1,0 +1,34 @@
+<div class="flex flex-row p-4 justify-between bg-jichi-grayscale-light-gray rounded-3xl ">
+    <span class="font-sans text-jichi-text-black font-normal text-sm">
+        Controlar inventario
+    </span>
+    <label class="relative inline-flex items-center cursor-pointer">
+        <input (ngModelChange)="!currentProduct.isTrackingInventoryMovement"
+            [(ngModel)]="currentProduct.isTrackingInventoryMovement" type="checkbox" class="sr-only peer">
+        <div
+            class="w-11 h-6 bg-jichi-grayscale-medium-gray peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-jichi-accent-light-green rounded-full peer  peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-jichi-grayscale-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-jichi-primary-green">
+        </div>
+    </label>
+</div>
+
+<div *ngIf="currentProduct.isTrackingInventoryMovement" class="pt-4">
+    <form [formGroup]="productInventoryForm">
+        <div class="p-2 flex flex-row justify-between">
+            <jichi-text [formControl]="productInventoryForm.controls.quantity" label="Cantidad disponible">
+            </jichi-text>
+
+            <jichi-text [formControl]="productInventoryForm.controls.minimumQuantity" label="Cantidad mínima"
+                type="number">
+            </jichi-text>
+        </div>
+        <div>
+            <span class="text-jichi-grayscale-dark-gray font-sans text-sm font-normal">
+                Te avisaremos cuando los productos lleguen a una cantidad igual o menor que el mínimo indicado.
+            </span>
+        </div>
+        <div class="flex flex-col">
+            <jichi-add-button (onClick)="submitForm()" [disable]="!productInventoryForm.valid"
+                class="w-[32rem] absolute bottom-0 self-center p-8" label="Continuar"></jichi-add-button>
+        </div>
+    </form>
+</div>

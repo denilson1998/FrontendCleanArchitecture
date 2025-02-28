@@ -1,0 +1,241 @@
+
+<div  class=" w-full bg-white rounded-[40px] shadow   md:mt-0 sm:max-w-2xl xl:p-0 ">
+
+    <div class="p-8 space-y-6 ">
+        <h1 class="text-3xl font-sans font-bold leading-[42px]  text-jichi-black ">
+           Registrate
+        </h1>
+        <p class="text-sm font-sans font-normal text-jichi-black">
+            Completá tus datos personales y preparate para empezar a administrar tu negocio.
+        </p>
+        <p class="text-[15px] font-sans pb-2 leading-5 font-normal text-jichi-grey">
+            Todos los campos son requeridos.
+        </p>
+        <form class=" space-y-4" (ngSubmit)="register()" [formGroup]="registerForm">
+            <div class="">
+                <jichi-text [formControl]="registerForm.controls.firstName" label="Nombre"></jichi-text>
+            </div>
+            <div class="grid md:grid-cols-2 gap-8">
+              
+                    <jichi-text [formControl]="registerForm.controls.firstLastName" label="Apellido paterno"></jichi-text>
+                
+        
+                
+                    <jichi-text [formControl]="registerForm.controls.secondLastName" label="Apellido materno"></jichi-text>
+            </div>
+
+            <div class="grid grid-cols-2 gap-8">
+                
+                    <jichi-text [formControl]="registerForm.controls.email" label="Correo electrónico"></jichi-text>
+                
+               
+              
+                    <jichi-text type="phone" [formControl]="registerForm.controls.phoneNumber"
+                        label="Número de celular" ></jichi-text>
+               
+            </div>
+         
+            <div class="grid grid-cols-2 gap-8">
+          
+                    <jichi-text icon="eyeClosed" type="password" [formControl]="registerForm.controls.password" label="Contraseña"></jichi-text>
+            
+                    <jichi-text icon="eyeClosed" type="password"  [formControl]="registerForm.controls.confirmPassword"
+                        label="Confirmar contraseña"></jichi-text>
+
+            </div>
+           
+            <div class="flex items-center justify-center">
+                <input [formControl]="registerForm.controls.email" [formControl]="registerForm.controls.privacy" id="link-checkbox" type="checkbox" value="" class="w-4 h-4 text-jichi-grey
+                 accent-jichi-green bg-jichi-grey rounded-md  ">
+                <label class="ml-2 text-sm font-medium text-jichi-grey ">He leído, entiendo y acepto la <a (click)="showModal =  !showModal" class="text-jichi-green underline font-sans font-semibold">Privacidad y términos de uso</a>.</label>
+            </div>
+    
+            <button type="submit" [disabled]="registerForm.invalid"
+                class="
+                w-full
+                h-14
+                text-white
+                bg-jichi-main-blue 
+                font-sans 
+                hover:bg-primary-700 
+                focus:ring-4 
+                focus:outline-none 
+                focus:ring-primary-300 
+                font-medium 
+                rounded-full 
+                text-sm px-5 py-2.5 text-center" [ngClass]="{'bg-jichi-grey': registerForm.invalid}">Continuar</button>
+            <p class="text-sm  text-jichi-green font-semibold 0 text-center">
+                <a [routerLink]="['/auth/login']" class="no-underline font-sans font-semibold hover:text-jichi-green text-jichi-green hover:underline ">¿Ya
+                    tenés cuenta? Inicia tu sesión</a>
+            </p>
+        </form>
+    </div>
+</div>
+<sarao-modal [(visible)]="showModal" [closable]="false">
+    <div class="flex flex-col items-center">
+        <img class="w-[120px] h-[120px]" src="assets/illustrations/contract.png" alt="">
+    </div>
+
+    <div class="flex flex-col items-center pt-12 pb-2">
+        <h5> Privacidad y términos de uso.</h5>
+    </div>
+    
+    <div class="flex flex-col overflow-y-auto px-10 pt-5 pb-10  w-[560px] h-[350px]">
+        <p > ¡Gracias por usar <b>JICHI</b>! Las políticas de privacidad establecen los términos de funcionamiento y uso de la información, proporcionada por los usuarios, al usar la aplicación móvil. <br>
+            Estas políticas pueden ser cambiadas o actualizadas en el transcurso del tiempo.
+        </p>
+
+        <br>
+
+        <p class="bold s-text-base">1.	Recopilación y uso de información.</p>
+        
+        <br>
+
+        <p>
+            Al usar la aplicación móvil <b>JICHI</b>, el usuario acepta la recopilación y uso de su información, como ser: nombre completo, número de celular, correo electrónico, información y dirección del negocio. A medida que se ingresen nuevos datos, estos serán igualmente registrados (listado de clientes, productos de inventario y registro de ventas).
+        </p>
+
+        <br>
+
+        <p>
+            Contactos: La funcionalidad de clientes requiere el acceso a la lista de contactos del dispositivo móvil, solo en el caso de registrar nuevos clientes mediante importación de contactos. La finalidad de esta función es facilitar el proceso de registro de clientes, recopilando la información requerida: nombre y número de celular.
+        </p>
+
+        <br>
+        
+        <p>
+            Cámara y galería: Algunas funcionalidades dentro de la aplicación requieren el acceso a la cámara fotográfica y galería de fotos para subir imágenes de los productos y/o servicios. <b>JICHI</b> no podrá subir imágenes sin la autorización de estos accesos.
+        </p>
+
+        <br>
+
+        <p>
+            Micrófono: Gracias a requerimientos del sistema Android, al activar la cámara del dispositivo móvil, dentro de la aplicación, también se activará el micrófono.
+        </p>
+
+        <br>
+
+        <p>
+            Registro de uso: <b>JICHI</b> registrará fechas y horas de acceso a la aplicación, según las actividades de navegación para próximas interacciones.
+        </p>
+
+        <br>
+
+        <p class="bold s-text-base">2.	Uso de la información recopilada.</p>
+        
+        <br>
+
+        <p>
+            La información recopilada será utilizada para actualizaciones, dentro de las funcionalidades de la aplicación, como:
+        </p>
+
+        <br>
+
+        <p>
+            Implementar mejoras en manejo de inventario, registro de venta y listado de clientes.
+        </p>
+        <br>
+        <p>
+            Implementar análisis del comportamiento del usuario y sus productos.
+        </p>
+
+        <br>
+
+        <p>
+            Mejorar la experiencia de usuario.
+        </p>
+
+        <br>
+
+        <p>
+            Mejorar los servicios.
+        </p>
+
+        <br>
+
+        <p>
+            Brindar soporte.
+        </p>
+
+        <br>
+
+        <p>
+            Implementar estrategias de publicidad y mercadeo.
+        </p>
+
+        <br>
+
+        <p>
+            <b>JICHI</b> tomará las medidas necesarias para garantizar la seguridad cibernética del usuario, haciendo uso de sus datos de manera segura y responsable. La información no será compartida con personas y/u organizaciones, a menos que no se cuente con los controles seguros, según lo establecido.
+        </p>
+
+        <br>
+
+        <p class="bold s-text-base">3.	Retención de datos.</p>
+
+        <br>
+
+         <p>
+            La información de los usuarios se utilizará únicamente para cumplir con normativas y/u obligaciones legales. Si el usuario se encuentra inactivo en la aplicación móvil, no se hará uso de sus datos personales.
+         </p>
+
+         
+        <br>
+        
+        <p class="bold s-text-base">4.	Seguridad.</p>
+
+        <br>
+
+         <p>
+            Para el fortalecimiento de la confianza otorgada, se utilizarán medios altamente efectivos para proteger la información de nuestros usuarios. En caso de existir alguna falla o filtración en el dispositivo del usuario, <b>JICHI</b> no se hace responsable de la pérdida de información.
+         </p>
+
+
+         
+        <br>
+        
+        <p class="bold s-text-base">5.	Cambios y/o modificaciones.</p>
+
+        <br>
+
+         <p>
+            Las políticas de privacidad se actualizarán periódicamente. Toda modificación que se realice será notificada y publicada en la página web de <b>JICHI</b>, sección “Privacidad y términos de uso”.
+         </p>
+
+         <br>
+
+         <p>
+            Recomendamos revisar las políticas de privacidad para futuras actualizaciones, en caso de que se realicen modificaciones en la aplicación móvil.
+         </p>
+
+         <br>
+        
+         <p class="bold s-text-base">6.	Vigencia.</p>
+         <br>
+
+         <p>
+            Los puntos anteriormente mencionados, rigen a partir del 8 de febrero de 2022. <br> <br>
+            Toda la información recopilada y registrada en la base de datos, tendrá vigencia el tiempo que se mantenga descrita esta política. Una vez el usuario se desvincule de la aplicación, <b>JICHI</b> eliminará sus datos con la finalidad de otorgarle seguridad sobre su información
+         </p>
+
+         <br>
+
+         <p class="bold s-text-base">Contacto</p>
+
+         <br>
+
+         <p>
+            Para consultas o más información sobre la privacidad y términos de uso, escribinos al WhatsApp <b>+591 78 12 77 77</b> o al correo electrónico <b>hola@jichi.com.bo</b>
+         </p>
+ 
+    </div>
+
+    <div class="flex flex-row w-full items-center">
+        
+    </div>
+    
+
+    <sarao-button class="modal-button" color="Primary" (click)="showModal =  !showModal">
+        Cerrar
+    </sarao-button>
+</sarao-modal>

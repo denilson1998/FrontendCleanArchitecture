@@ -1,0 +1,190 @@
+<div>
+    <h5 class="flex justify-center items-center mb-4 text-xl font-semibold text-jichi-text-black font-sans">
+        Editar producto
+    </h5>
+</div>
+
+<div class="p-2 justify-between" [ngSwitch]="currentPage">
+    <div *ngSwitchCase="'main-edit'">
+
+        <div class="flex flex-col items-center justify-center">
+            <div class="w-60 h-60 block bg-no-repeat bg-cover bg-center rounded-xl"
+                style="background-image: url({{currentProduct.imageUri}})"
+                [ngStyle]="{'background-image': currentProduct.imageUri ? 'url('+currentProduct.imageUri+')': 'url('+imgPlaceholder+')'}">
+            </div>
+        </div>
+
+        <div class="pt-4">
+            <span class="font-semibold text-lg font-sans text-jichi-text-black">
+                Descripción
+            </span>
+        </div>
+
+        <jichi-modal-card class="flex flex-col pt-4">
+            <div class="flex flex-row justify-between p-2">
+                <span class="text-jichi-text-black pt-1 text-sm font-sans font-semibold items-start">
+                    Nombre del producto
+                </span>
+
+                <a (click)="changePage('product-detail')"
+                    class="no-underline flex font-semibold text-sm font-sans text-jichi-text-bright-blue items-end cursor-pointer">
+                    Editar
+                    <img class="w-6 h-6 pl-1 pt-1 " src="assets/icons/pencil-edit.svg" alt="">
+                </a>
+
+            </div>
+
+            <div class="flex flex-col px-2 py-1">
+                <span class="font-sans text-jichi-text-black font-normal text-sm">
+                    {{currentProduct.name}}
+                </span>
+                <span class="font-sans text-jichi-grayscale-dark-gray text-xs">
+                    {{currentProduct.description || 'Sin descripción'}}
+                </span>
+            </div>
+
+            <div class="flex flex-row justify-between p-2">
+                <span class="text-jichi-text-black pt-4  text-sm font-sans font-semibold items-start">
+                    Catálogo virtual
+                </span>
+            </div>
+
+            <div class="flex flex-row px-2 py-2 justify-between">
+                <span class="font-sans text-jichi-text-black font-normal text-sm">
+                    Mostrar en el catálogo
+                </span>
+                <label class="relative inline-flex items-center cursor-pointer">
+                    <input type="checkbox" class="sr-only peer">
+                    <div
+                        class="w-11 h-6 bg-jichi-grayscale-medium-gray peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-jichi-accent-light-green rounded-full peer  peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-jichi-grayscale-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-jichi-primary-green">
+                    </div>
+                </label>
+            </div>
+
+        </jichi-modal-card>
+
+        <jichi-modal-card class="flex flex-col pt-4">
+            <div class="flex flex-row justify-between p-2">
+                <span class="text-jichi-text-black pt-1 text-sm font-sans font-semibold items-start">
+                    Precios
+                </span>
+
+                <a (click)="changePage('product-price')"
+                    class="no-underline flex font-semibold text-sm font-sans text-jichi-text-bright-blue items-end cursor-pointer">
+                    Editar
+                    <img class="w-6 h-6 pl-1 pt-1 " src="assets/icons/pencil-edit.svg" alt="">
+                </a>
+            </div>
+
+            <div class="flex flex-row px-2 py-2 justify-between">
+                <span class="font-sans text-jichi-grayscale-dark-gray font-normal text-sm">
+                    Precio de venta
+                </span>
+                <span *ngIf="currentProduct.prices[0].currency === 'Dollars'; else bolivianosCurrency"
+                    class="font-sans text-jichi-text-black font-normal text-sm">
+                    {{currentProduct.prices[0].amount | currency: 'USD':'symbol'}}
+                </span>
+
+                <ng-template #bolivianosCurrency>
+                    <span class="font-sans text-jichi-text-black font-normal text-sm">
+                        {{currentProduct.prices[0].amount | currency: 'BOB':'symbol'}}
+                    </span>
+                </ng-template>
+            </div>
+
+        </jichi-modal-card>
+
+        <div class="pt-2">
+            <span class="font-semibold text-lg font-sans text-jichi-text-black">
+                Inventario
+            </span>
+        </div>
+
+        <jichi-modal-card class="flex flex-col py-4">
+            <div class="py-2">
+                <div class="flex flex-row px-2 py-2 justify-between">
+                    <span class="font-sans text-jichi-grayscale-dark-gray font-normal text-sm">
+                        Cantidad disponible:
+                    </span>
+                    <span class="font-sans text-jichi-text-black font-normal text-sm">
+                        {{currentProduct.inventory.quantity}}
+                    </span>
+                </div>
+
+                <div (click)="changePage('product-inventory')"
+                    class="bg-jichi-grayscale-light-gray rounded-3xl cursor-pointer items-center">
+                    <div class="flex flex-row p-2 justify-between items-center ">
+                        <img src="assets/icons/inventory-box-blue.svg" class="w-11 h-11 items-start p-1">
+                        <span
+                            class="flex absolute pl-14 font-sans text-jichi-text-black font-normal text-sm items-start">
+                            Editar inventario
+                        </span>
+                        <a>
+                            <img src="assets/icons/right-arrow.svg" class="items-end">
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </jichi-modal-card>
+
+
+        <div class="pt-2">
+            <span class="font-semibold text-lg font-sans text-jichi-text-black">
+                Más detalles
+            </span>
+        </div>
+
+        <jichi-modal-card class="flex flex-col py-4">
+            <div class="py-2">
+                <div class="flex flex-row px-2 py-2 "
+                    *ngIf="currentProduct.categories.length > 0 || currentProduct.productDetails.length > 0">
+                    <span class="font-sans text-jichi-grayscale-dark-gray font-normal text-sm">
+                        Categoría:
+                    </span>
+                    <span class="font-sans text-jichi-text-black font-normal text-sm pl-2">
+                        {{currentProduct.categories | concatPipe : 'name' : '/'}}
+                    </span>
+
+                    <div *ngFor="let productDetails of currentProduct.productDetails">
+                        <span class="font-sans text-jichi-grayscale-dark-gray font-normal text-sm">
+                            {{productDetails.attribute.label}}
+                        </span>
+                        <span class="font-sans text-jichi-text-black font-normal text-sm pl-2">
+                            {{productDetails.attributeCharacteristic}}
+                        </span>
+                    </div>
+                </div>
+
+                <div class="bg-jichi-grayscale-light-gray rounded-3xl cursor-pointer items-center">
+                    <div class="flex flex-row p-2 justify-between items-center ">
+                        <img src="assets/icons/inventory-box-blue.svg" class="w-11 h-11 items-start p-1">
+                        <span
+                            class="flex absolute pl-14 font-sans text-jichi-text-black font-normal text-sm items-start">
+                            Editar detalles
+                        </span>
+                        <img src="assets/icons/right-arrow.svg" class="items-end">
+                    </div>
+                </div>
+            </div>
+        </jichi-modal-card>
+
+        <div class="flex flex-row p-4 cursor-pointer justify-center">
+            <a class="font-sans font-semibold text-base text-jichi-status-canceled">
+                Eliminar producto
+            </a>
+        </div>
+
+    </div>
+    <div *ngSwitchCase="'product-detail'">
+        <jichi-edit-product-details></jichi-edit-product-details>
+    </div>
+
+    <div *ngSwitchCase="'product-price'">
+        <jichi-product-price></jichi-product-price>
+    </div>
+
+    <div *ngSwitchCase="'product-inventory'">
+        <jichi-product-inventory></jichi-product-inventory>
+    </div>
+</div>

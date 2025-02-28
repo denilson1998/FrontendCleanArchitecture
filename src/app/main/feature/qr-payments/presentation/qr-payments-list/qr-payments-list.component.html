@@ -1,0 +1,179 @@
+<jichi-section-title label="Pagos"></jichi-section-title>
+
+<div class="relative overflow-x-auto shadow-2xl rounded-lg bg-jichi-grayscale-white">
+
+    <div *ngIf="paymentsDataRow.length; else noItemsTemplate">
+        <div class="flex items-center pt-6">
+            <div class="relative w-2/6 p-4">
+                <div class="absolute inset-y-0 left-0 flex items-center pl-6 pointer-events-none">
+                    <svg aria-hidden="true" class="w-5 h-5 text-jichi-grayscale-gray" fill="currentColor"
+                        viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd"
+                            d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                            clip-rule="evenodd"></path>
+                    </svg>
+                </div>
+                <input type="text" id="simple-search"
+                    class="bg-jichi-grayscale-white border-2 border-jichi-grayscale-medium-gray  text-sm rounded-2xl  block w-full pl-10 p-2.5"
+                    placeholder="Buscar" required>
+            </div>
+        </div>
+
+        <div class="pt-4">
+            <jichi-table [head]="head" [data]="paymentsDataRow" [currentPage]="paymentsResponse.pageNumber"
+                [totalPages]="paymentsResponse.totalPages" [limit]="paymentsResponse.pageSize"
+                (changePage)="changePage($event)">
+                <ng-template #actionsTemplate let-row>
+                    <a *ngIf="row.isExpired === false" (click)="seeQR(row)" class="flex font-semibold text-jichi-text-bright-blue no-underline">
+                        Ver QR
+                        <img class=" pl-1 " src="assets/icons/arrow-select-two.svg" alt="">
+                    </a>
+                    <a *ngIf="row.isExpired === true" (click)="seeQRexpired(row)" class="flex font-semibold text-jichi-text-bright-blue no-underline">
+                        Ver QR
+                        <img class=" pl-1 " src="assets/icons/arrow-select-two.svg" alt="">
+                    </a>
+                </ng-template>
+            </jichi-table>
+        </div>
+    </div>
+
+    <ng-template #noItemsTemplate>
+        <div class="h-[79vh] flex items-center justify-center flex-col">
+            <div class="flex items-center">
+                <div>
+                    <img class="w-44 h-44" src="assets/illustrations/notfound.png" alt="no encontrado">
+                </div>
+            </div>
+            <div class="flex items-center justify-center flex-col pt-4">
+                <jichi-section-subtitle label="No tenés pagos registrados."></jichi-section-subtitle>
+                <jichi-span label="Cobrá tus ventas con los QR generados y/o vinculados a la cuenta de tu negocio."></jichi-span>
+            </div>
+        </div>
+    </ng-template>
+</div>
+
+<!-- MODAL LOADER -->
+<div *ngIf="flag_loader" class="modal-loader">
+    <div class="loader-child">
+        <img class="loading-loader" src="assets/illustrations/loading.png" alt="loading">
+        <p class="loading-text">Cargando...</p>
+    </div>
+</div>
+
+
+<!-- MODAL DE ERROR HTTP -->
+<div *ngIf="flag_error" class="modal-error">
+    <div  class="modal-error-child">
+        <div class="modal-error-second">
+            <div class="modal-error-in">
+                <img class="cone-img" src="assets/illustrations/coneerror.png" alt="coneerror">
+                <p class="error-text-cone">Algo salió mal</p>  
+            </div>
+            <p class="error-mesagge">No hemos podido cargar la sección que estás buscando.
+            <br>
+            <br>
+            Actualizá para volver a intentarlo.
+            </p>
+        </div>
+        <div class="modal-error-out">
+            <button class="button-error" (click)="reload()">Actualizar</button>
+        </div>
+    </div>
+</div>
+
+
+<!-- OSCURECER PANTALLA -->
+<div *ngIf="flag_fill_dark" class="fill-page"></div>
+
+
+
+<!-- MODAL PERSONALIZADO -->
+<div *ngIf="visibleNormal" class="modal-active" #parent>
+    <div class="modal-active-title">
+        <p class="modal-active-title-in">Código QR</p>
+
+        <!-- <button class="button-modal-active" (click)="closeModal()">
+            <img class="button-img" src="assets/illustrations/exit.png" alt="">
+        </button> -->
+
+        <sarao-action-button (click)="closeModalQrActive()"  img="assets/illustrations/exit.png"></sarao-action-button>      
+    </div>
+    <div class="modal-active-content">
+        <div class="qr">
+            <div class="border-content">
+                    <qrcode
+                      [qrdata]=" qrStringEncripted "
+                      [allowEmptyString]="true"
+                      [ariaLabel]="'QR Code image with the following content...'"
+                      [cssClass]="'center'"
+                      [colorDark]="'#000000ff'"
+                      [colorLight]="'#ffffffff'"
+                      [elementType]="'canvas'"
+                      [id]="'core'"
+                      [errorCorrectionLevel]="'M'"
+                      [imageSrc]="'./assets/illustrations/icon-qr.png'"
+                      [imageHeight]="60"
+                      [imageWidth]="60"
+                      [margin]="4"
+                      [scale]="1"
+                      [title]="'A custom title attribute'"
+                      [width]="250"
+                    ></qrcode>
+
+            </div>
+        </div>
+        <div class="content-description-active">
+            <div class="content-dad">
+                <img class="img-fassil" src="assets/illustrations/fassil.png" alt="">
+                <div class="container-description">
+                    <p class="container-currency">{{ amount | currencyBolivian }}</p>
+                    <p class="container-qr-description">{{ qr_description }}</p>
+                </div>
+            </div>
+            <hr class="line-hr">
+            <div class="container-date">
+                <p *ngIf="is_Ex.value === true" class="content-date-valid">Válido hasta el {{  date_validate | date:'d':'':'es-BO' }} de {{  date_validate | date:'MMMM':'':'es-BO' }} de {{  date_validate | date:'y':'':'es-BO' }}.</p>
+                <p *ngIf="is_Ex.value === false" class="content-date-validation">Válido hasta el {{  date_validate | date:'d':'':'es-BO' }} de {{  date_validate | date:'MMMM':'':'es-BO' }} de {{  date_validate | date:'y':'':'es-BO' }}.</p>
+                
+                <p class="content-client-name">{{ client_name }}</p>
+            </div>
+        </div>
+    </div>
+    <div class="content-download">
+        <button *ngIf="is_Ex.value === false" class="content-download-button" (click)="saveAsImage(parent)">Descargar Imagen</button>
+    </div>
+    <div>
+    </div>
+</div>
+
+<!-- MODAL PERSONALIZADO EXPIRED -->
+<div *ngIf="visibleNormal_expired" class="modal-expired" #parent>
+    <div class="modal-expired-title">
+        <p class="modal-expired-title-in">Código QR</p>
+        <button class="button-modal-active" (click)="closeModalQrExpired()">
+            <img class="button-img" src="assets/illustrations/exit.png" alt="">
+        </button>
+    </div>
+    <div class="modal-expired-content">
+        <div class="content-description-expired">
+            <div class="content-dad-expired">
+                <img class="img-fassil" src="assets/illustrations/fassil.png" alt="">
+                <div class="container-description">
+                    <p class="container-currency-expired">{{ amount | currencyBolivian }}</p>
+                    <p class="container-qr-description-expired">{{ qr_description }}</p>
+                </div>
+            </div>
+            <hr class="line-hr">
+            <div class="container-date-expired">
+                <p *ngIf="is_Ex.value === true" class="content-expired-expired">Este QR venció el {{  date_validate | date:'d':'':'es-BO' }} de {{  date_validate | date:'MMMM':'':'es-BO' }} de {{  date_validate | date:'y':'':'es-BO' }}.</p>
+                <p class="content-client-name-expired">{{ client_name }}</p>
+            </div>
+        </div>
+    </div>
+    <div>
+    </div>
+</div>
+
+
+
+<sarao-snackbar></sarao-snackbar>

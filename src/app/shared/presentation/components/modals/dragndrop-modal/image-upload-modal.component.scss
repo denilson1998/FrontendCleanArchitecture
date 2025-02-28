@@ -1,0 +1,20 @@
+.sarao-modal-card.modal-rounded {
+    border-radius: 40px !important;
+}
+
+.trash-btn{
+    opacity: 0;
+}
+
+.edit-btn {
+    opacity: 0;
+}
+
+
+.image-container:hover .trash-btn {
+    opacity: 1;
+}
+
+.image-container:hover .edit-btn {
+    opacity: 1;
+}

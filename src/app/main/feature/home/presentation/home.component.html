@@ -1,0 +1,21 @@
+<sarao-navbar
+  logo="assets/logos/jichi-only-letters-white.png"
+  profileName="{{ nameOrganization }}"
+  profileImg="{{ imgUri }}"
+></sarao-navbar>
+<!-- <app-modal-organization></app-modal-organization> -->
+<!-- <div (click)="changeOrganization()"></div> -->
+<sarao-sidebar
+  [options]="options"
+  [fixed]="false"
+  [bottomOption]="options[0]"
+  username="{{ userName }}"
+>
+<div #content class="main px-[44px] overflow-y-auto">
+  <router-outlet (activate)="onActivate()"></router-outlet>
+  <p class="help z-50">
+    ¿Necesitas ayuda?
+    <a class="view"> Ve nuestras guías de uso</a>
+  </p>
+</div>
+</sarao-sidebar>

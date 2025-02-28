@@ -1,0 +1,31 @@
+<p>Ingresá la información que deseás guardar y ver de tus clientes más frecuentes.</p>
+<p>*Campos requeridos</p>
+<form [formGroup]="formGroup">
+    <!-- id="unico" -->
+    <sarao-input
+        type="text"
+        label="Nombre completo"
+        error="Requerido"
+        [formControl]="formGroup.controls.name"
+        >
+    </sarao-input>
+    <sarao-input
+        type="text"
+        label="Número de teléfono"
+        [formControl]="formGroup.controls.phoneNumber"
+        >
+    </sarao-input>
+    <sarao-input
+        type="email"
+        label="Correo electrónico"
+        error="No es un correo electrónico válido"
+        [formControl]="formGroup.controls.email">
+    </sarao-input>
+    <sarao-input
+        type="text"
+        label="Dirección"
+        [formControl]="formGroup.controls.location"
+        >
+    </sarao-input>
+    <sarao-button [disabled]="!formGroup.valid" color="Primary" (click)="createClient()">Registrar cliente</sarao-button>
+</form>

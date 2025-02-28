@@ -1,0 +1,100 @@
+<ng-container *ngIf="user">
+    <div class="flex justify-between">
+        <h1>
+            {{user.fullName}}
+        </h1>
+        <a (click)="showEditUserModal()" class="no-underline flex font-semibold text-jichi-text-bright-blue">
+            Editar
+            <img class="w-6 h-6 pl-1 pb-1" src="assets/icons/pencil-edit.svg" alt="">
+        </a>
+    </div>
+
+    {{user.email}}
+    {{user.phoneNumber}}
+    <!-- <p>
+        Última venta: {{ordersLastDate | date: 'dd/MM/yyyy'}}
+    </p> -->
+    {{firstDate}}
+    <div>
+        Filtrar desde:
+        <input [ngModel]="firstDate | date:'yyyy-MM-dd'"  (ngModelChange)="loadCharts($event, undefined)" type="date" name="" id="">
+        hasta: 
+        <input [ngModel]="endDate | date:'yyyy-MM-dd'"  (ngModelChange)="loadCharts(undefined, $event)" type="date" name="" id="">
+    </div>
+    <div class="h-[200px]">
+        <div class="flex justify-around" *ngIf="a">
+        <!-- <div class="grid grid-cols-2 gap-8"> -->
+            <sarao-card>
+                <div class="sarao-card-body">
+                    <div class="p-8 pb-4">
+                        <sarao-numeric-card-chart position="center" [number]="ordersTotal" [currency]="currency"></sarao-numeric-card-chart>
+                        <p class="mt-4 text-center">
+                            Ventas totales
+                        </p>
+                    </div>
+                </div>
+            </sarao-card>
+        
+            <sarao-card>
+                <div class="sarao-card-body">
+                    <div class="p-8 pb-4">
+                        <sarao-numeric-card-chart position="center" [number]="paidOrdersTotal" [currency]="currency"></sarao-numeric-card-chart>
+                        <p class="mt-4 text-center">
+                            Ventas pagadas
+                        </p>
+                    </div>
+                </div>
+            </sarao-card>
+        
+            <sarao-card>
+                <div class="sarao-card-body">
+                    <div class="p-8 pb-4">
+                        <sarao-numeric-card-chart position="center" [number]="productsTotal" [currency]="''"></sarao-numeric-card-chart>
+                        <p class="mt-4 text-center">
+                            Productos vendidos
+                        </p>
+                    </div>
+                </div>
+            </sarao-card>
+        </div>
+    </div>
+    <div>
+        Agrupar por
+            <input class="w-6" type="number" [(ngModel)]="groupByDays" (ngModelChange)="loadCharts()">
+        días
+    </div>
+    <sarao-line-chart
+    *ngIf="chartOptions"
+        [series]="chartOptions.series!"
+        [chart]="chartOptions.chart!"
+        [xaxis]="chartOptions.xaxis!"
+        [dataLabels]="chartOptions.dataLabels!"
+        [legend]="chartOptions.legend!"
+        [fill]="chartOptions.fill!"
+        [grid]="chartOptions.grid!"
+        [stroke]="chartOptions.stroke!">
+    </sarao-line-chart>
+
+    <sarao-line-chart
+    *ngIf="ordersCountChartOptions"
+        [series]="ordersCountChartOptions.series!"
+        [chart]="ordersCountChartOptions.chart!"
+        [xaxis]="ordersCountChartOptions.xaxis!"
+        [dataLabels]="ordersCountChartOptions.dataLabels!"
+        [legend]="ordersCountChartOptions.legend!"
+        [fill]="ordersCountChartOptions.fill!"
+        [grid]="ordersCountChartOptions.grid!"
+        [stroke]="ordersCountChartOptions.stroke!">
+    </sarao-line-chart>
+
+    <user-sold-products-list *ngIf="orders" [orders]="orders"></user-sold-products-list>
+    <user-orders-list (ordersLoaded)="handleOrdersLoaded($event)" [userAuth0Id]="user.auth0Id"></user-orders-list>
+    <sarao-modal
+        *ngIf="editUserModalIsShown"
+        title="Datos del usuario"
+        [(visible)]="editUserModalIsShown"
+        styleClass="inventarioModal">
+        <edit-user-modal [user]="user" (userEdited)="handleUserEdited()"></edit-user-modal>
+    </sarao-modal>
+</ng-container>
+

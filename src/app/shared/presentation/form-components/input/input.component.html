@@ -1,0 +1,13 @@
+<input
+  [type]="typeValue"
+  [formControl]="inputControl"
+  [class.is-invalid]="
+    inputControl.invalid && (inputControl.dirty || inputControl.touched)
+  "
+  (keyup)="onKeyUpEvent($event)"
+  (blur)="onBlurEvent($event)"
+  required
+/>
+<span class="highlight"></span>
+<span class="bar"></span>
+<label> {{ placeholder }}</label>

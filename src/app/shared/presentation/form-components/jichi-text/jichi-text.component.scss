@@ -1,0 +1,19 @@
+.form-text-input {
+    position: relative;
+    height: 3rem;
+    align-items: end;
+    display: flex;
+    &.invalid {
+        input {
+            &:not(:focus) {
+                border-bottom: 1px solid #D23A4Cff!important;
+                +label {
+                    color: #D23A4Cff!important;
+                }
+            }
+        }
+    }
+
+
+
+}

@@ -1,0 +1,108 @@
+<jichi-section-title label="Pagos"></jichi-section-title>
+<div class="relative overflow-x-auto shadow-2xl rounded-lg bg-jichi-grayscale-white">
+    
+  
+ <div *ngIf="isLinked; else linkTemplate">
+    <div class="h-screen flex  flex-col px-10">
+        <div class="flex flex-col justify-start items-start">
+            <h3 class="pt-6 text-[26px]">Cuenta activada</h3>
+            <span class="pt-4 text-base font-sans font-normal text-jichi-grayscale-dark-gray">¡Ahora podés generar QR con tu cuenta Banco Fassil y recibir notificaciones de pago!</span>
+        </div>
+        <div class="pt-10 ">
+            <jichi-table [head]="head" [data]="accounts" [currentPage]="1"
+                [totalPages]="1" [limit]="1000"
+              >
+
+                <ng-template #actionsTemplate let-row>
+                    <a (click)="openModal()" class="flex font-semibold text-jichi-text-bright-blue no-underline">
+                        Desvincular >
+                    </a>
+
+                </ng-template>
+            </jichi-table>
+        </div>
+    </div>
+ </div>
+
+
+ <ng-template #linkTemplate>
+    <div class="h-full flex items-center  flex-col">
+        <div class="flex items-start justify-start">
+            <div class="flex pt-12">
+                <img class="w-40 h-40" src="assets/illustrations/link-bank-account.png" >
+            
+            </div>
+        </div>
+        <div class="flex items-center justify-center flex-col pt-4 w-1/2">
+            <h2 class="bold title-2xl">Cómodo, fácil y seguro.</h2>
+            <span class="text-lg text-jichi-grayscale-dark-gray pt-4 text-center">
+                Ahora podés conectar tu cuenta de <span class="semibold text-lg">Banco Fassil</span> para disfrutar los beneficios
+                de cobrar y pagar con QR.
+            </span>
+        </div>
+        <div class="flex  flex-col pr-20 pt-12 justify-between ">
+            <div class="flex flex-row items-center text-center pb-4">
+                <img src="assets/icons/benefits-qr.svg" >
+                <span class="text-base semibold pl-5">
+                 Generá QR para tus ventas
+                </span>
+            </div>
+            <div class="flex flex-row items-center text-center pb-4">
+                <img src="assets/icons/benefits-cash.svg" >
+                <span class="text-base semibold pl-5">
+                    Llevá respaldo de tus ganancias
+                </span>
+            </div>
+            <div class="flex flex-row items-center text-center">
+                <img src="assets/icons/benefits-delivery.svg" >
+                <span class="text-base semibold pl-5">
+                    Pagá y cobrá tus envíos
+                </span>
+            </div>
+        </div>
+        <div class="pt-10  flex flex-row ">
+            <sarao-button [color]="'Primary'" (click)="linkAccount()">Vincular cuenta</sarao-button>
+            <div class="pl-4">
+                <button class="shadow__btn" (click)="goToFabulosa()">
+                    Abrir una Cuenta Fabulosa
+                </button>
+            </div>
+        </div>
+       <div class="flex p-4 flex-col justify-center items-center">
+        <span class="text-xs text-jichi-grayscale-dark-gray pt-4 text-center">
+            Esta entidad es supervisada por ASFI
+        </span>
+       </div>
+    </div>
+ </ng-template>
+</div>
+
+
+<sarao-modal [zindex]="902" [(visible)]="showModal">
+
+
+<div class="flex flex-col  items-center">
+    <div class="w-32 h-32 flex flex-col">
+        <img
+        class="image-profile "
+        src="assets/illustrations/bankaccounterror.png"
+        alt=""
+      />
+    </div>
+    <div class="flex flex-col  items-center">
+        <h3 class="pt-12 text-xl ">Desvincular cuenta</h3>
+    </div>
+    <div class=" flex w-[400px] h-[200px] text-center pt-4">
+        <span class="text-center font-normal font-sans text-[17px] leading-6">
+            Tu cuenta de banco será desvinculada de la cuenta de tu negocio. Toda la información de lo códigos QR será eliminada y tendrás que volver a conectar tu cuenta de banco para usar este método de pago.
+    <br> <br>
+    Ya no podrás generar QR para las ventas del negocio con tu cuenta de <p class="font-semibold">Banco Fassil N.° 5678456988.</p>
+        </span> 
+    </div>
+    <div class="bottom-0 flex relative pt-10">
+        <sarao-button  state="GhostDark" class="pr-4"><p class="font-sans text-[17px] font-semibold text-jichi-status-canceled flex justify-center items-center">Desvincular </p></sarao-button>
+        <sarao-button  class="modal-button" state="Primary"  (click)="closeModal()"
+          >Cancelar</sarao-button>
+    </div>
+</div>
+  </sarao-modal>

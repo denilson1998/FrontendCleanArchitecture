@@ -1,0 +1,36 @@
+<sarao-modal  [(visible)]="state" [closable]="false">
+    <div class=" w-[45rem]   flex flex-col justify-center items-center">
+     <div class="max-h-full max-w-full">
+        <image-cropper
+        class="jichi-cropper"
+        [imageChangedEvent]="imagePreview"
+        [maintainAspectRatio]="true"
+        [aspectRatio]="1 / 1"
+        [cropperMinWidth]="128"
+        [roundCropper]="false"
+        [alignImage]="'center'"
+        [resizeToWidth]="1080"
+        [resizeToHeight]="1080"
+        [containWithinAspectRatio]="true"
+        [style.display]="showCropper ? null : 'none'"
+        format="png"
+        (imageCropped)="imageCropped($event)"
+        (imageLoaded)="imageLoaded()"
+    ></image-cropper>
+     </div>
+  
+  </div>
+
+  
+ <div class="flex flex-row items-center justify-evenly ">
+ <!-- TO DO FALTAN LOS ICONOS E INTREGRACION CON EL ENDPOINT -->
+   <sarao-action-button></sarao-action-button>
+    <input class="rounded-lg overflow-hidden appearance-none bg-jichi-grayscale-medium-gray h-4 w-3/4" type="range" min="1" max="100" step="1" value="15" />
+    <sarao-action-button></sarao-action-button>
+</div>
+<div class="flex flex-col items-center justify-center pt-2">
+    <sarao-button (click)="saveImage()" color="Primary">Guardar Imagen</sarao-button>
+    <sarao-button (click)="closeCropper()">Cancelar</sarao-button>
+</div>
+  
+  </sarao-modal>

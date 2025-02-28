@@ -1,0 +1,15 @@
+<div class="my-10">
+    <jichi-section-subtitle label="Productos más comprados"></jichi-section-subtitle>
+    <div class="h-[300px]">
+        <jichi-table
+            *ngIf="dataRow"
+            [head]="listHead"
+            [data]="dataRow"
+            [currentPage]="pageNumber"
+            [totalPages]="totalPages"
+            [limit]="pageSize"
+            (changePage)="changePage($event)">
+        
+        </jichi-table>
+    </div>
+</div>

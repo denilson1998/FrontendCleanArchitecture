@@ -1,0 +1,41 @@
+
+<ng-container *ngIf="showCreateClientForm">
+    <h3>Registrar nuevo cliente</h3>
+    <form [formGroup]="formGroup">
+        <!-- id="unico" -->
+        <sarao-input
+            type="text"
+            label="Nombre completo"
+            error="Requerido"
+            [formControl]="formGroup.controls.name"
+            >
+        </sarao-input>
+        <sarao-input
+            type="text"
+            label="Número de teléfono"
+            [formControl]="formGroup.controls.phoneNumber"
+            >
+        </sarao-input>
+        <sarao-input
+            type="email"
+            label="Correo electrónico"
+            error="No es un correo electrónico válido"
+            [formControl]="formGroup.controls.email">
+        </sarao-input>
+        <sarao-input
+            type="text"
+            label="Dirección"
+            [formControl]="formGroup.controls.location"
+            >
+        </sarao-input>
+        <sarao-button [disabled]="!formGroup.valid" color="Primary" (click)="createClient()">Registrar cliente</sarao-button>
+    </form>
+</ng-container>
+
+<sarao-list [spinner]="isLoading" (scrolled)="loadCustomers()">
+    <h3>Seleccionar cliente</h3>
+    <div *ngFor="let customer of customers" class="flex justify-between">
+        <h5>{{customer.fullName}}</h5>
+        <input type="checkbox" (change)="customerSelected($event, customer)" [checked]="selectedCustomers.includes(customer)">
+    </div>
+</sarao-list>

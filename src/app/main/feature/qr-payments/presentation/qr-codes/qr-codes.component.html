@@ -1,0 +1,234 @@
+<jichi-section-title label="Pagos"></jichi-section-title>
+<div class="emty">
+  <div class="content" *ngIf="!showTable">
+    <img src="../../../../../../assets/illustrations/notfound-qr.png" alt="" />
+    <h6 class="title">¡Vinculá tus carteles de mesa!</h6>
+    <p class="sub-title">
+      Aquí aparecerán todos tus carteles de mesa vinculados.
+    </p>
+
+    <sarao-button color="Primary" (click)="openRight()" [small]="true"
+      >Generar QR
+    </sarao-button>
+  </div>
+
+  <div class="pt-4" *ngIf="showTable">
+    <div class="dad-filters">
+      <div class="select">
+        <jichi-select
+          label="Filtrar por estado"
+          [formControl]="filterSelect"
+          [options]="FilterOptions"
+        ></jichi-select>
+      </div>
+
+      <div class="search">
+        <sarao-search-bar [showIcon]="true"></sarao-search-bar>
+      </div>
+      <div class="btn-add">
+        <sarao-button color="Primary" (click)="openRight()" [small]="true"
+          >Agregar QR
+        </sarao-button>
+      </div>
+    </div>
+    <jichi-table
+      [head]="head"
+      [data]="groupedQrDetail.result"
+      [currentPage]="groupedQrDetail.pageNumber"
+      [totalPages]="groupedQrDetail.totalPages"
+      [limit]="groupedQrDetail.pageSize"
+    >
+      <ng-template #actionsTemplate let-row>
+        <a
+          class="flex font-semibold text-jichi-text-bright-blue"
+          (click)="getRow(row)"
+        >
+          Ver Pagos
+          <img
+            class="w-6 h-6 pl-1 pb-1"
+            src="assets/icons/arrow-right.png"
+            alt=""
+          />
+        </a>
+      </ng-template>
+    </jichi-table>
+  </div>
+</div>
+
+<sarao-modal
+  title="Generar código QR"
+  class="title-qr"
+  [(visible)]="visilbeRight"
+>
+  <div class="content-qr">
+    <div class="inputs-qr">
+      <form [formGroup]="formGroup">
+        <sarao-input
+          type="text"
+          label="Glosa"
+          id="unico"
+          error="Requerido"
+          [formControl]="formGroup.controls.qrDescription"
+          placeholder="Código QR n.° 1"
+        ></sarao-input>
+        <sarao-input
+          type="number"
+          label="Monto a cobrar"
+          [img]="true"
+          error="Requerido"
+          iconSarao="bolivia"
+          [formControl]="formGroup.controls.amount"
+          placeholder="0,00"
+        ></sarao-input>
+      </form>
+    </div>
+    <div class="generate">
+      <sarao-button
+        class="btn-100"
+        color="Primary"
+        (click)="onSubmit()"
+        [small]="true"
+        >Generar</sarao-button
+      >
+    </div>
+  </div>
+</sarao-modal>
+
+<sarao-modal
+  title="{{ title }}"
+  [(visible)]="visilbeModalQr"
+  class="modal-medium-qr"
+  [closable]="!loading"
+>
+  <div class="content-qr-generate" #parent>
+    <div class="qr" *ngIf="!loading">
+      <div class="qrcodeImage">
+        <qrcode  #qr
+          [qrdata]="encryptedQrString"
+          [allowEmptyString]="true"
+          [ariaLabel]="'QR Code image with the following content...'"
+          [cssClass]="'center-qr'"
+          [colorDark]="'#000000ff'"
+          [colorLight]="'#ffffffff'"
+          [elementType]="'canvas'"
+          [errorCorrectionLevel]="'M'"
+          [imageSrc]="'../../../../../../assets/illustrations/simple_qr.png'"
+          [imageHeight]="60"
+          [imageWidth]="60"
+          [margin]="4"
+          [scale]="1"
+          [title]="'A custom title attribute'"
+          [width]="275"
+          (qrCodeURL)="onChangeURL($event)"
+        ></qrcode>
+      </div>
+    </div>
+
+    <div class="info" *ngIf="!loading">
+      <div class="logo">
+        <img
+          src="../../../../../../assets/illustrations/banco-fassil.png"
+          class="img-fassil"
+          alt=""
+        />
+      </div>
+      <div class="money">
+        <p class="cash">Bs {{ amount }}</p>
+        <p class="description">{{ description }}</p>
+      </div>
+      <div class="space"></div>
+      <div class="name-qr">
+        <p class="valid">
+          Válido hasta el {{ expiration | date : "d" : "" : "es-BO" }} de
+          {{ expiration | date : "MMMM" : "" : "es-BO" }} de
+          {{ expiration | date : "y" : "" : "es-BO" }}.
+        </p>
+        <p class="name">{{ name }}</p>
+      </div>
+    </div>
+    <div class="loading" *ngIf="loading">
+      <div class="custom-loader"></div>
+      <p class="loading-text">Estamos generando el QR</p>
+    </div>
+    <div class="error"></div>
+  </div>
+
+  <sarao-button
+    class="modal-button btn-100 mb-30"
+    color="Primary"
+    (click)="saveAsImage(parent)"
+    *ngIf="!loading"
+    [small]="true"
+    >Descargar Imagen</sarao-button
+  >
+</sarao-modal>
+
+<sarao-modal title="Código QR" [(visible)]="visilbeModalQrError">
+  <div class="content-qr-no">
+    <div class="qr-no-img">
+      <img src="../../../../../../assets/illustrations/qr-no.png" alt="" />
+    </div>
+    <div class="titel-qr-no">
+      <p>QR no generado</p>
+    </div>
+    <div class="description-qr-no">
+      <p>Lo sentimos, ocurrió un problema. Por favor, volvé a intentarlo.</p>
+    </div>
+  </div>
+  <sarao-button
+    class="modal-button btn-100 mb-30"
+    color="Primary"
+    (click)="retry()"
+    [small]="true"
+    >Volver a intentarlo</sarao-button
+  >
+</sarao-modal>
+
+<sarao-modal
+  title="{{ titleQrShow }}"
+  class="title-qr"
+  [(visible)]="visilbeQrListRight"
+>
+  <div>
+    <p class="sub-title-qr-modal">
+      Visualizá todos los pagos recibidos del cartel de mesa vinculado a tu
+      negocio.
+    </p>
+    <sarao-list
+      [height]="700"
+      (scrolled)="onScrollCustom()"
+      [spinner]="finishedCustom"
+    >
+      <div
+        class="sarao-list-item"
+        *ngFor="let item of listQrPaymetnByQr.result; let index"
+        [id]="'sarao-item-' + index"
+      >
+        <div>
+          <h5 class="sarao-item-list-title">
+            {{ item?.qrDetail?.clientName! }}
+          </h5>
+          <p class="sarao-item-list-subtitle">
+            {{ item?.qrDetail?.expirationDate | date : "d" : "" : "es-BO" }} de
+            {{
+              item?.qrDetail?.expirationDate | date : "MMMM" : "" : "es-BO"
+            }}
+            de {{ item?.qrDetail?.expirationDate | date : "y" : "" : "es-BO" }}
+          </p>
+        </div>
+        <div>
+          <p class="bold">Bs{{ item?.qrDetail?.amount! }}</p>
+        </div>
+      </div>
+    </sarao-list>
+  </div>
+  <sarao-button
+    class="modal-button btn-100 mb-30"
+    color="Primary"
+    (click)="showQrSelecting()"
+    [small]="true"
+    >Ver QR</sarao-button
+  >
+</sarao-modal>
+
+<sarao-snackbar></sarao-snackbar>

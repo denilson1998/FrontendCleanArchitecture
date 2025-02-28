@@ -1,0 +1,21 @@
+<div>
+  <!--   <h5 class="flex justify-center items-center mb-4 text-base font-semibold text-jichi-text-black font-sans">
+    {{title}}
+    </h5> -->
+
+    <span class="font-sans font-normal text-sm text-jichi-grayscale-dark-gray">
+        {{subtitle}}
+    </span>
+</div>
+<div class="justify-between" [ngSwitch]="currentPage">
+  <div *ngSwitchCase="'create-options'">
+    <jichi-modal-button [label]="button1Text" icon="pencilGray" (onClick)="openAdd()"></jichi-modal-button>
+    <jichi-modal-button [label]="button2Text" icon="fileImport" class="pt-4" (onClick)="openImport()"></jichi-modal-button>
+  </div>
+  <div *ngSwitchCase="'new-product-form'">
+    <new-product-page (submited)="gotoInventory($event)"></new-product-page>
+  </div>
+  <div *ngSwitchCase="'inventory-form'">
+    <inventory-form (submited)="saveProduct($event)"></inventory-form>
+  </div>
+</div>

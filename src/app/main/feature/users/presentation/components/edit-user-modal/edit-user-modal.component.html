@@ -1,0 +1,42 @@
+<p>Ingresá la información que deseás guardar y ver de tus clientes más frecuentes.</p>
+<p>*Campos requeridos</p>
+{{user.email}}
+<form [formGroup]="formGroup">
+    <!-- id="unico" -->
+    <sarao-dropdown
+        *ngIf="canRemoveUser"
+        label="Roles"
+        [options]="roleTypes"
+        (selected)="onRoleSelected($event)"
+        >
+    </sarao-dropdown>
+    <sarao-input
+        type="text"
+        label="Nombre"
+        error="Requerido"
+        [formControl]="formGroup.controls.firstName"
+        >
+    </sarao-input>
+    <sarao-input
+        type="text"
+        label="Primer Apellido"
+        error="Requerido"
+        [formControl]="formGroup.controls.firstLastName"
+        >
+    </sarao-input>
+    <sarao-input
+        type="text"
+        label="Segundo Apellido"
+        error="Requerido"
+        [formControl]="formGroup.controls.secondLastName"
+        >
+    </sarao-input>
+    <sarao-input
+        type="text"
+        label="Número de teléfono"
+        [formControl]="formGroup.controls.phoneNumber"
+        >
+    </sarao-input>
+    <sarao-button [disabled]="!formGroup.valid" color="Primary" (click)="editUser()">Guardar usuario</sarao-button>
+    <sarao-button *ngIf="canRemoveUser" color="Primary" (click)="removeUserFromOrganization()">Deshabilitar usuario</sarao-button>
+</form>

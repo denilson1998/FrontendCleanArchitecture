@@ -1,0 +1,47 @@
+<ng-container *ngIf="customerId" >
+    <jichi-section-subtitle label="Ventas al cliente"></jichi-section-subtitle>
+    <div class="relative overflow-x-auto shadow-2xl rounded-lg bg-jichi-grayscale-white">
+        
+        <div *ngIf="ordersDataRow.length && ordersResponse; else noItemsTemplate">
+            <div class="pt-4">
+                <jichi-table [head]="ordersListHead" [data]="ordersDataRow" [currentPage]="ordersResponse.pageNumber"
+                    [totalPages]="ordersResponse.totalPages" [limit]="ordersResponse.pageSize"
+                    (changePage)="changeOrdersListPage($event)">
+
+                    <ng-template #actionsTemplate let-row>
+                        <a (click)="viewOrder(row.id)" class="no-underline flex font-semibold text-jichi-text-bright-blue">
+                            Ver detalle
+                        </a>
+                    </ng-template>
+                </jichi-table>
+            </div>
+        </div>
+
+        <ng-template #noItemsTemplate>
+            <div class="h-[400px] flex items-center justify-center flex-col">
+                <div class="flex items-center">
+                    <div>
+                        <img class="w-44 h-44" src="assets/illustrations/notfound.png" alt="no encontrado">
+                    </div>
+                </div>
+
+                <div class="flex items-center justify-center flex-col pt-4">
+                    <jichi-section-subtitle label="¡Aquí aparecerán las ventas de tu cliente!"></jichi-section-subtitle>
+                </div>
+            </div>
+        </ng-template>
+
+    </div>
+
+    <sarao-modal
+    *ngIf="selectedOrder"
+    title="Editar "
+    (visibleChange)="handleOrderModalIsOpenChange($event)"
+    [(visible)]="orderModalIsOpen"
+     styleClass="inventarioModal">
+        <order-modal
+            (orderHasBeenUpdated)="handleOrderHasBeenUpdated()"
+            [order]="selectedOrder">
+        </order-modal>
+    </sarao-modal>
+</ng-container>

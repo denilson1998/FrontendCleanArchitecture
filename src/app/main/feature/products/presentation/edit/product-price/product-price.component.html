@@ -1,0 +1,14 @@
+<form [formGroup]="productPriceForm">
+    <div>
+        <div class="p-4 ">
+            <jichi-text class="pb-6" [formControl]="productPriceForm.controls.price" label="Precio de venta">
+            </jichi-text>
+            <jichi-text [formControl]="productPriceForm.controls.cost" label="Costo unitario" type="number">
+            </jichi-text>
+        </div>
+    </div>
+    <div class="flex flex-col">
+        <jichi-add-button (onClick)="submitForm()" [disable]="!productPriceForm.valid"
+            class="w-[32rem] absolute bottom-0 self-center p-8" label="Continuar"></jichi-add-button>
+    </div>
+</form>

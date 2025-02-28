@@ -1,0 +1,180 @@
+
+<div class="relative overflow-x-auto  min-h-full  bg-jichi-grayscale-white px-6">
+
+    <table class="w-full text-sm text-left bg-jichi-grayscale-white">
+        <thead class="text-xs text-jichi-black border-b">
+            <tr>
+                <th *ngFor="let column of head" scope="col" class="p-6 font-sans text-sm ">
+                    {{column.name}}
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr class="bg-jichi-grayscale-white border-b  hover:bg-gray-50" *ngFor="let item of data">
+                <td scope="row" *ngFor="let column of head"
+                    class="px-6 py-3 font-medium text-gray-900 whitespace-nowrap">
+
+
+                    <div [ngSwitch]="column.type">
+                        <div *ngSwitchCase="'image'">
+                            <div *ngIf="item[column.prop]; else placeholderTemplate" class="w-20 h-20 block bg-no-repeat bg-cover bg-center rounded-lg"
+                                style="background-image: url({{item[column.prop]}})">
+                            </div>
+                           <ng-template #placeholderTemplate>
+                            <div  class="w-20 h-20 block bg-no-repeat bg-cover bg-center rounded-lg"
+                            style="background-image: url('assets/illustrations/placeholder.png')">
+                        </div>
+                           </ng-template>
+                            
+                        </div>
+
+                        <div *ngSwitchCase="'price'">
+                            <span class="font-sans font-normal text-jichi-text-black"
+                                *ngIf="item[column.prop].currency === 'Dollars';else bolivianCurrency">
+                                {{item[column.prop].amount | currency: 'USD':'symbol' }}
+                            </span>
+
+                            <ng-template #bolivianCurrency>
+                                <span class="font-sans font-normal text-jichi-text-black">
+                                    {{item[column.prop].amount| currency: 'BOB':'symbol-narrow' }}
+                                </span>
+                            </ng-template>
+                        </div>
+
+                        <div *ngSwitchCase="'price-qr'">
+                            <span class="font-sans font-normal text-jichi-text-black"
+                                *ngIf="item[column.prop].currency === 'Dollars';else bolivianCurrency">
+                                {{item[column.prop] | currency: 'USD':'symbol' }}
+                            </span>
+
+                            <ng-template #bolivianCurrency>
+                                <span class="font-sans font-normal text-jichi-text-black">
+                                    {{item[column.prop] | currencyBolivian   }}
+                                </span>
+                            </ng-template>
+                        </div>
+
+                        <div *ngSwitchCase="'expired'">
+                            <span class="font-sans font-normal text-jichi-text-black"
+                                *ngIf="item[column.prop] === true;else expiredOption">
+                                {{ 'QR vencido' }}
+                            </span>
+
+                            <ng-template #expiredOption>
+                                <span class="font-sans font-normal text-jichi-text-black">
+                                    {{'QR activo'}}
+                                </span>
+                            </ng-template>
+                        </div>
+
+                        <div *ngSwitchCase="'toggle'">
+                            <label class="relative inline-flex items-center cursor-pointer">
+                                <input type="checkbox" (ngModelChange)="toggle(item)" [(ngModel)]="item[column.prop]"
+                                    class="sr-only peer">
+                                <div
+                                    class="w-11 h-6 bg-jichi-grayscale-medium-gray peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-jichi-accent-light-green rounded-full peer  peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-jichi-grayscale-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-jichi-primary-green">
+                                </div>
+                            </label>
+                        </div>
+                        <div *ngSwitchCase="'dateTime'">
+                            <span class="text-jichi-primary-dark-blue font-sans text-sm font-normal">
+                                {{  item[column.prop] | date:'d':'':'es-BO' }} de {{  item[column.prop] | date:'MMMM':'':'es-BO' }} de {{  item[column.prop] | date:'y':'':'es-BO' }}, {{  item[column.prop] | date:'HH:mm':'':'es-BO' }}
+                            </span>
+                        </div>
+
+                        <div *ngSwitchCase="'chip'">
+                            <span class="text-jichi-primary-dark-blue font-sans text-sm font-normal" [ngClass]="item[column.prop] == true ? 'active' : 'inactive'"  >
+                                {{item[column.prop] === null ? '-' : (item[column.prop] == true ?  column.trueLabel ?? 'Activo' : column.falseLabel ?? 'Vencido') }}
+                            </span>
+                        </div>
+
+                        <div *ngSwitchDefault>
+                            <span class="text-jichi-primary-dark-blue font-sans text-sm font-normal">
+                                {{item[column.prop] === null ? '-' : item[column.prop] }}
+                            </span>
+                        </div>
+
+                        <div class="cursor-pointer" *ngSwitchCase="'actions'">
+                            <ng-container *ngTemplateOutlet="
+                              actionsTemplate || defaultActionTemplate;
+                              context: { $implicit: item }">
+                            </ng-container>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+
+    <nav class="flex items-center justify-end p-4" aria-label="Table navigation">
+        <ul class="flex flex-row items-center -space-x- justify-around relative">
+            
+            <li (click)="changePageEmitter(currentPage -1)" class="flex "
+                [ngClass]="{'pointer-events-none': currentPage === 1, 'hover:cursor-pointer': currentPage !=1} ">
+                <a class="no-underline block rounded-2xl px-3 py-3 ml-0 mr-1 leading-tight bg-jichi-grayscale-white border-[1.5px]  border-jichi-grayscale-medium-gray"
+                    [ngClass]="{
+                        'text-jichi-grayscale-dark-gray  hover:bg-jichi-grayscale-medium-gray hover:text-jichi-text-black hover:cursor-pointer': currentPage !=1,
+                        'text-jichi-grayscale-medium-gray':currentPage == 1}">
+                    <span class="sr-only">Anterior</span>
+                    <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd"
+                            d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+                            clip-rule="evenodd"></path>
+                    </svg>
+                </a>
+            </li>
+
+            <li *ngIf="currentPage >3" (click)="changePageEmitter(1)" class="px-1  hover:cursor-pointer">
+                <a
+                    class="no-underline px-4 py-3 mx-0.5 rounded-2xl text-jichi-grayscale-dark-gray bg-jichi-grayscale-white  hover:bg-jichi-grayscale-medium-gray hover:text-jichi-text-black">1</a>
+            </li>
+
+            <li *ngIf="currentPage >= 4">
+                <a 
+                    class="no-underline px-4 py-3 mx-0.5 rounded-2xl text-jichi-grayscale-dark-gray bg-jichi-grayscale-white  hover:bg-jichi-grayscale-medium-gray hover:text-jichi-text-black">...</a>
+            </li>
+
+            <li *ngFor="let page of pages; let last = last">
+                <a *ngIf="!last" (click)="changePageEmitter(page)"
+                    class="no-underline px-4 py-3  mx-0.5 hover:cursor-pointer  rounded-2xl" [ngClass]="{
+                        'text-jichi-grayscale-dark-gray bg-jichi-grayscale-white  hover:bg-jichi-grayscale-medium-gray hover:text-jichi-text-black': currentPage  != page,
+                        ' font-semibold  bg-jichi-grayscale-medium-gray': currentPage === page}">{{page}}</a>
+            </li>
+
+            <li *ngIf="currentPage < totalPages -2">
+                <a
+                    class="no-underline px-4 py-3 mx-0.5 rounded-2xl text-jichi-grayscale-dark-gray bg-jichi-grayscale-white  hover:bg-jichi-grayscale-medium-gray hover:text-jichi-text-black">...</a>
+            </li>
+
+            <li (click)="changePageEmitter(totalPages)">
+                <a class=" no-underline px-4 py-3  mx-0.5 hover:cursor-pointer  rounded-2xl" [ngClass]="{
+                    'text-jichi-grayscale-dark-gray bg-jichi-grayscale-white  hover:bg-jichi-grayscale-medium-gray hover:text-jichi-text-black': currentPage  != totalPages,
+                    ' font-semibold  bg-jichi-grayscale-medium-gray': currentPage === totalPages}">{{totalPages}}</a>
+            </li>
+
+            <li (click)="changePageEmitter(currentPage +1)" class="flex"
+                [ngClass]="{'pointer-events-none': currentPage === totalPages, 'hover:cursor-pointer': currentPage != totalPages} ">
+                <a class="no-underline block rounded-2xl px-3 py-3 ml-0 mr-1 leading-tight  bg-jichi-grayscale-white  border-[1.5px] border-jichi-grayscale-medium-gray"
+                    [ngClass]="{
+                        'text-jichi-grayscale-dark-gray  hover:bg-jichi-grayscale-medium-gray hover:text-jichi-text-black hover:cursor-pointer': currentPage != totalPages,
+                        'text-jichi-grayscale-medium-gray':currentPage == totalPages}">
+                    <span class="sr-only">Siguiente</span>
+                    <svg class="w-5 h-5" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd"
+                            d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                            clip-rule="evenodd"></path>
+                    </svg>
+                </a>
+            </li>
+
+        </ul>
+    </nav>
+</div>
+
+
+
+<ng-template #defaultActionTemplate>
+</ng-template>

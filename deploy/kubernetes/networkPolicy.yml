@@ -1,0 +1,19 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: front-np-jichi
+  namespace: "#{{Namespace}}#"
+spec:
+  podSelector:
+    matchLabels:
+      app.kubernetes.io/name: frontjichi-deployment
+      app.kubernetes.io/component: frontjichi
+  policyTypes:
+  - Ingress
+  ingress:
+  - from: 
+    - ipBlock:
+        cidr: 0.0.0.0/0
+    ports:
+    - protocol: TCP
+      port: 8080

@@ -1,0 +1,46 @@
+<div class=" flex flex-col items-center">
+    <div class="container flex flex-col max-w-md w-full bg-white rounded-lg shadow    md:mt-0  xl:p-0 ">
+        <div class=" flex flex-col items-center">
+            <a href="#" class="flex items-center p-6 text-2xl font-semibold text-jichi-green">
+                <img class="w-16 h-16  " src="assets/logos/jichi_blob.svg" alt="logo">
+            </a>
+    
+            <h1 class="text-xl font-sans p-2 font-bold leading-tight  tracking-tight text-jichi-black md:text-2xl">
+                ¡Bienvenido a JICHI!
+            </h1>
+            <p class="text-sm font-sans py-2 font-normal text-jichi-grey">
+                Ingresá tu correo electrónico y contraseña:
+            </p>
+        </div>
+        <div class="flex flex-col md:space-y- sm:p-8">
+    
+            <form class="px-6 space-y-2 md:space-y-2 flex flex-col" (ngSubmit)="login()" [formGroup]="loginForm">
+                <div>
+                    <jichi-text [formControl]="loginForm.controls.email" icon="fingerprint"
+                        label="Correo electrónico"></jichi-text>
+    
+                </div>
+                <div>
+                    <jichi-text type="password" [formControl]="loginForm.controls.password" label="Contraseña"
+                        icon="eyeClosed">
+    
+                    </jichi-text>
+    
+                </div>
+                <button type="submit"
+                    class="w-full rounded-full text-white bg-jichi-main-blue hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium  text-sm px-5 py-3 text-center ">Iniciar
+                    sesión</button>
+                <p class="text-sm  font-light pt-2 text-jichi-grey text-center">
+                    <a [routerLink]="['/auth/passwordReset']"
+                        class="no-underline font-medium hover:text-jichi-green text-primary-600 hover:underline ">¿Olvidaste tu
+                        contraseña?</a>
+                </p>
+    
+                <p class="text-sm text-center py-4">
+                    <a [routerLink]="['/auth/register']"
+                        class="no-underline font-semibold text-jichi-green text-primary-600 hover:underline ">Crear cuenta</a>
+                </p>
+            </form>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,33 @@
+<form  [formGroup]="newProductForm" class="flex-col flex ">
+    <div class="flex flex-col">
+        <div class="flex flex-col items-center justify-center" >
+            <img src="assets/illustrations/photo-upload.png" class="!w-32 !h-32 cursor-pointer" (click)=" this.showDragDrop = !this.showDragDrop" alt="">
+        </div>
+    
+    
+        <div class="pt-10">
+            <jichi-text class="pb-6"  [formControl]="newProductForm.controls.name"
+                label="Nombre del producto">
+            </jichi-text>
+
+           
+            <div class="pt-8" >
+                <jichi-text  type="number"  [formControl]="newProductForm.controls.price"
+                label="Precio de venta">
+            </jichi-text>
+            </div>
+        </div>
+        
+    <div class="flex flex-col">
+        <jichi-add-button  class="w-[32rem] absolute bottom-0 self-center p-8" (click)="submitForm()" [disable]="!newProductForm.valid"  label="Continuar"></jichi-add-button>
+    </div>
+
+  
+    </div>
+
+
+</form>
+
+<jichi-image-upload [state]="this.showDragDrop" (imageUploaded)="imageHandler($event)"></jichi-image-upload>
+
+ 

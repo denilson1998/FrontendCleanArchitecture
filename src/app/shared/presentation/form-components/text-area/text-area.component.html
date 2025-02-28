@@ -1,0 +1,9 @@
+<textarea
+  [formControl]="inputControl"
+  [class.is-invalid]="inputControl.invalid && inputControl.touched"
+  [class.is-valid]="inputControl.valid && inputControl.touched"
+  [placeholder]="placeholder"
+  class="form-control"
+  [cols]="cols"
+  [rows]="rows"
+></textarea>

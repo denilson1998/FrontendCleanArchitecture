@@ -1,0 +1,9 @@
+<button [disabled]="disable" [type]="type" (click)="onClickButton($event)"
+    class="py-3.5 text-sm font-sans font-semibold px-16 m-auto text-center items-center  rounded-full text-jichi-grayscale-white  w-full"
+    [ngClass]="{
+    'bg-jichi-primary-dark-blue' : !disable,
+    'bg-jichi-grayscale-gray': disable
+}
+" type="button">
+    {{label}}
+</button>

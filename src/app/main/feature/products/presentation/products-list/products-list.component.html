@@ -1,0 +1,79 @@
+<div class="relative overflow-x-auto shadow-2xl rounded-lg bg-jichi-grayscale-white">
+    
+    <div *ngIf="productsDataRow.length; else noItemsTemplate">
+        <div class="flex items-center pt-6">
+            <div class="relative w-1/4 p-4">
+                <div class="absolute inset-y-0 left-0 flex items-center pl-6 pointer-events-none">
+                    <svg aria-hidden="true" class="w-5 h-5 text-jichi-grayscale-gray" fill="currentColor"
+                        viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <path fill-rule="evenodd"
+                            d="M8 4a4 4 0 100 8 4 4 0 000-8zM2 8a6 6 0 1110.89 3.476l4.817 4.817a1 1 0 01-1.414 1.414l-4.816-4.816A6 6 0 012 8z"
+                            clip-rule="evenodd"></path>
+                    </svg>
+                </div>
+                <input type="text" id="simple-search"
+                    class="bg-jichi-grayscale-white border-2 border-jichi-grayscale-medium-gray  text-sm rounded-2xl  block w-full pl-10 p-2.5"
+                    placeholder="Buscar" required>
+            </div>
+            <button type="submit"
+                class="p-2 ml-2 text-sm font-medium text-white bg-jichi-grayscale-white rounded-2xl border-2 border-jichi-grayscale-medium-gray hover:bg-jichi-grayscale-light-gray focus:ring-2  focus:ring-jichi-grayscale-light-gray">
+                <img src="assets/icons/filter.svg">
+                <span class="sr-only">Buscar</span>
+            </button>
+
+            <div class="absolute right-0 flex items-center p-8">
+                <jichi-add-button (onClick)="openSideBarDrawer()" [label]="'Agregar productos'"></jichi-add-button>
+            </div>
+        </div>
+
+        <div class="pt-4">
+            <jichi-table [head]="head" [data]="productsDataRow" [currentPage]="productsResponse.pageNumber"
+                [totalPages]="productsResponse.totalPages" [limit]="productsResponse.pageSize"
+                (changePage)="changePage($event)" (toggleChange)="updateShowInCatalog($event)">
+
+                <ng-template #actionsTemplate let-row>
+                    <a (click)="editProduct(row)" class="no-underline flex font-semibold text-jichi-text-bright-blue">
+                        Editar
+                        <img class="w-6 h-6 pl-1 pb-1" src="assets/icons/pencil-edit.svg" alt="">
+                    </a>
+
+                </ng-template>
+            </jichi-table>
+        </div>
+    </div>
+
+    <ng-template #noItemsTemplate>
+        <div class="h-[79vh] flex items-center justify-center flex-col">
+            <div class="flex items-center">
+                <div>
+                    <img class="w-44 h-44" src="assets/illustrations/notfound.png" alt="no encontrado">
+                </div>
+            </div>
+
+            <div class="flex items-center justify-center flex-col pt-4">
+                <jichi-section-subtitle label="¡Registrá tu primer producto!"></jichi-section-subtitle>
+                <jichi-span label="Aquí aparecerán tus productos."></jichi-span>
+            </div>
+            <div class="pt-14">
+                <jichi-add-button (onClick)="openSideBarDrawer()" [label]="'Agregar productos'"></jichi-add-button>
+            </div>
+        </div>
+    </ng-template>
+
+</div>
+
+
+
+
+<sarao-drawer [closable]="true" title="Nuevo producto" styleClass="inventarioModal" [(visible)]="createModal">
+    <new-product-content   *ngIf="contentSideBar =='create'" [currentPage]="currentPageForm"></new-product-content>
+</sarao-drawer>
+
+
+
+<sarao-drawer 
+title="Editar"
+[(visible)]="editModal"
+>
+<edit-product-content *ngIf="contentSideBar =='edit'" [currentPage]="currentPageFormEdit"></edit-product-content>
+</sarao-drawer>

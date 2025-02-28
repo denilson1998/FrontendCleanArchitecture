@@ -1,0 +1,31 @@
+<p>Ingresá la información que deseás guardar y ver de tus clientes más frecuentes.</p>
+<p>*Campos requeridos</p>
+<form [formGroup]="formGroup" *ngIf="inited">
+    <!-- id="unico" -->
+    <sarao-input
+        type="text"
+        label="Nombre completo"
+        error="Requerido"
+        formControlName="name"
+        >
+    </sarao-input>
+    <sarao-input
+        type="text"
+        label="Número de teléfono"
+        formControlName="phoneNumber"
+        >
+    </sarao-input>
+    <sarao-input
+        type="email"
+        label="Correo electrónico"
+        error="No es un correo electrónico válido"
+        formControlName="email">
+    </sarao-input>
+    <sarao-input
+        type="text"
+        label="Dirección"
+        formControlName="location"
+        >
+    </sarao-input>
+    <sarao-button [disabled]="!formGroup.valid" color="Primary" (click)="editClient()">Guardar</sarao-button>
+</form>

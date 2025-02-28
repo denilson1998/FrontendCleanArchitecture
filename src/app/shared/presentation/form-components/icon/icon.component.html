@@ -1,0 +1,11 @@
+<div class="item">
+  <div class="itemsGrouped" *ngIf="showPreview; else noPreview">
+    <img src="{{ icon }}" alt="Jichi" class="itemsPhoto" />
+    <img src="assets/images/preview.png" alt="Jichi" class="itemsSoon" />
+  </div>
+  <ng-template #noPreview>
+    <img src="{{ icon }}" alt="Jichi" class="itemsPhoto" />
+  </ng-template>
+  <h3>{{ title }}</h3>
+  <p>{{ subtitle }}</p>
+</div>

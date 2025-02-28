@@ -1,0 +1,81 @@
+trigger:
+  branches:
+    include:
+      - refs/heads/dev
+      - refs/heads/main
+stages:
+- stage: Dev
+  pool:
+    vmImage: ubuntu-latest
+  condition: eq(variables['Build.SourceBranch'], 'refs/heads/dev')
+  jobs:
+  - job: build_and_deploy_job
+    displayName: Build and Deploy Job
+    variables:
+    - group: JICHI-WebApp-Dev
+    - name: projectPath
+      value: "."
+    steps:
+    - checkout: self
+      submodules: true
+
+    - task: qetza.replacetokens.replacetokens-task.replacetokens@3
+      displayName: "Replace tokens in **/$(projectPath)"
+      inputs:
+        targetFiles: |
+          $(projectPath)/src/environments/environment.ts
+          $(projectPath)/.npmrc
+        actionOnMissing: fail
+        tokenPrefix: "#{{"
+        tokenSuffix: "}}#"
+
+    - task: AzureStaticWebApp@0
+      inputs:
+        azure_static_web_apps_api_token: $(AZURE_STATIC_WEB_APPS_API_TOKEN_MANGO_BEACH_0E983E10F)
+        app_location: "/" # App source code path
+        api_location: "" # Api source code path - optional
+        output_location: "dist/jichi-web"
+        app_build_command: 'npm run build'
+
+# - stage: Prod
+#   pool:
+#     vmImage: ubuntu-latest
+#   condition: eq(variables['Build.SourceBranch'], 'refs/heads/main')
+#   jobs:
+#   - job: build_and_deploy_job
+#     displayName: Build and Deploy Job
+#     condition: or(eq(variables['Build.Reason'], 'Manual'),or(eq(variables['Build.Reason'], 'PullRequest'),eq(variables['Build.Reason'], 'IndividualCI')))
+#     pool:
+#       vmImage: ubuntu-latest
+#     variables:
+#     - group: JICHI-Prod
+#     - name: projectPath
+#       value: "."
+#     steps:
+#     - checkout: self
+#       submodules: true
+
+#     - task: qetza.replacetokens.replacetokens-task.replacetokens@3
+#       displayName: "Replace tokens in **/$(projectPath)"
+#       inputs:
+#         targetFiles: "$(projectPath)/src/environments/environment.ts"
+#         actionOnMissing: fail
+#         tokenPrefix: "#{{"
+#         tokenSuffix: "}}#"
+
+#     - task: qetza.replacetokens.replacetokens-task.replacetokens@3
+#       displayName: "Replace tokens in **/$(projectPath)"
+#       inputs:
+#         targetFiles: "$(projectPath)/src/environments/environment.prod.ts"
+#         actionOnMissing: fail
+#         tokenPrefix: "#{{"
+#         tokenSuffix: "}}#"
+
+#     - task: AzureStaticWebApp@0
+#       inputs:
+#         azure_static_web_apps_api_token: $(AZURE_STATIC_WEB_APPS_API_TOKEN_)
+#         app_location: "/" # App source code path
+#         api_location: "" # Api source code path - optional
+#         output_location: "dist/jichi-web" # Built app content directory - optional
+#         app_build_command: 'npm run build'
+

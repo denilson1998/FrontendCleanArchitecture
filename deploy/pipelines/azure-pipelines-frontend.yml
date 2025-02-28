@@ -1,0 +1,238 @@
+trigger:
+  branches:
+    include:
+      - refs/heads/dev
+      - refs/heads/main
+
+  paths:
+    include:
+      - deploy/kubernetes/deployment-front.yml
+      - deploy/kubernetes/ingress.yml
+      - deploy/kubernetes/configMap.yml
+      - deploy/kubernetes/secrets.yml
+      - deploy/kubernetes/pipelines/azure-pipelines-frontend
+      - src
+
+stages:
+- stage: Build
+  pool:
+    vmImage: ubuntu-20.04
+  jobs:
+  - job: Compile
+    variables:
+      #- ${{ if ne(variables['Build.SourceBranch'], 'refs/heads/dev') }}:
+      - group: Jichi-Web-Config-Dev
+      - group: Jichi-Web-Secrets-Dev
+      #- ${{ if eq(variables['Build.SourceBranch'], 'refs/heads/main') }}:
+         #- group: Jichi-Web-Config-Prod
+         #- group: Jichi-Web-Secrets-Prod
+    steps:
+    
+    - task: NodeTool@0
+      displayName: 'Use Node 14.18.1'
+      inputs:
+        versionSpec: 14.18.1
+
+    - task: Npm@1
+      displayName: npm install
+      inputs:
+        workingDir: .
+        verbose: false
+
+    - task: qetza.replacetokens.replacetokens-task.replacetokens@3
+      displayName: 'Replace tokens in **/WebApp/'
+      inputs:
+        targetFiles: 'src/environments/environment.prod.ts'
+        actionOnMissing: fail
+        tokenPrefix: '#{{'
+        tokenSuffix: '}}#'
+
+    - task: Npm@1
+      displayName: npm build
+      inputs:
+        workingDir: .
+        command: custom
+        verbose: false
+        customCommand: run build-prod
+
+    - task: PublishPipelineArtifact@1
+      inputs:
+        targetPath: FrontEnd/dist
+        artifactName: CompileArtifact
+
+    - task: PublishPipelineArtifact@1
+      inputs:
+        targetPath: deploy
+        artifactName: DeployArtifact
+
+  - job: Docker
+    dependsOn:
+    - Compile
+    condition: |
+      in(dependencies.Compile.result, 'Succeeded', 'Skipped')
+    steps:
+    - task: DownloadPipelineArtifact@2
+      inputs:
+        artifact: CompileArtifact
+        path: FrontEnd/dist
+    
+    - task: Docker@2
+      condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/dev'))
+      displayName: Docker Build
+      inputs:
+        containerRegistry: "SitecDev"
+        repository: "jichi/web"
+        command: "build"
+        Dockerfile: "$(Build.SourcesDirectory)/Dockerfile"
+        buildContext: "$(Build.SourcesDirectory)/WebApp/"
+        tags: |
+          $(Build.SourceBranchName)-latest
+          $(Build.SourceBranchName)-$(Build.BuildId)
+
+    - task: Docker@2
+      condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/dev'))
+      displayName: Docker Push
+      inputs:
+        containerRegistry: "SitecDev"
+        repository: "jichi/web"
+        command: "push"
+        tags: |
+          $(Build.SourceBranchName)-latest
+          $(Build.SourceBranchName)-$(Build.BuildId)
+          
+    - task: Docker@2
+      condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
+      displayName: Docker Build
+      inputs:
+        containerRegistry: "SitecProd"
+        repository: "jichi/web"
+        command: "build"
+        Dockerfile: "$(Build.SourcesDirectory)/Dockerfile"
+        buildContext: "$(Build.SourcesDirectory)/WebApp/"
+        tags: |
+          $(Build.SourceBranchName)-latest
+          $(Build.SourceBranchName)-$(Build.BuildId)
+
+    - task: Docker@2
+      condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
+      displayName: Docker Push
+      inputs:
+        containerRegistry: "SitecProd"
+        repository: "jichi/web"
+        command: "push"
+        tags: |
+          $(Build.SourceBranchName)-latest
+          $(Build.SourceBranchName)-$(Build.BuildId)
+
+- stage: Dev
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/dev'))
+  dependsOn: Build
+  jobs:
+    - deployment: AKS
+      environment: 
+        name: 'AKS Dev'
+        resourceType: 'VirtualMachine'
+      variables:
+        - group: AKS-DEV
+        - group: Cluster-Dev
+        - group: Jichi-Web-Config-Dev
+        - group: Jichi-Web-Secrets-Dev
+      strategy:
+        runOnce:
+          deploy:
+            steps:
+              - task: DownloadPipelineArtifact@2
+                displayName: 'Download Build Artifacts'
+                inputs:
+                  artifact: DeployArtifact
+                  path: $(System.ArtifactsDirectory)
+
+              - task: qetza.replacetokens.replacetokens-task.replacetokens@3
+                displayName: 'Replace tokens in **/deply/kube'
+                inputs:
+                  targetFiles: |
+                     $(System.ArtifactsDirectory)/kubernetes/deployment-front.yml
+                     $(System.ArtifactsDirectory)/kubernetes/configMap.yml
+                     $(System.ArtifactsDirectory)/kubernetes/secrets.yml
+                     $(System.ArtifactsDirectory)/kubernetes/scaler.yml
+                     $(System.ArtifactsDirectory)/kubernetes/networkPolicy.yml
+                     $(System.ArtifactsDirectory)/kubernetes/services.yml
+                     $(System.ArtifactsDirectory)/kubernetes/ingress.yml 
+                  actionOnMissing: fail
+                  tokenPrefix: '#{{'
+                  tokenSuffix: '}}#'
+
+              - task: Bash@3
+                inputs:
+                  targetType: 'inline'
+                  script: | 
+                    az login --service-principal -u $(SP-USER) -p $(SP-PASS) -t $(SP-TENANT)
+                    az aks get-credentials --resource-group $(AKS-RG) --name $(AKS-NAME) --overwrite-existing --file .kubeconfig-x
+                    export KUBECONFIG=$(pwd)/.kubeconfig-x
+                    export AAD_SERVICE_PRINCIPAL_CLIENT_ID=$(SP-USER)
+                    export AAD_SERVICE_PRINCIPAL_CLIENT_SECRET=$(SP-PASS)
+                    kubelogin convert-kubeconfig -l spn
+                    kubectl apply -f $(System.ArtifactsDirectory)/kubernetes/deployment-front.yml
+                    kubectl apply -f $(System.ArtifactsDirectory)/kubernetes/configMap.yml
+                    kubectl apply -f $(System.ArtifactsDirectory)/kubernetes/secrets.yml
+                    kubectl apply -f $(System.ArtifactsDirectory)/kubernetes/scaler.yml
+                    kubectl apply -f $(System.ArtifactsDirectory)/kubernetes/networkPolicy.yml
+                    kubectl apply -f $(System.ArtifactsDirectory)/kubernetes/services.yml
+                    kubectl apply -f $(System.ArtifactsDirectory)/kubernetes/ingress.yml 
+
+- stage: Prod
+  condition: and(succeeded(), eq(variables['Build.SourceBranch'], 'refs/heads/main'))
+  dependsOn: Build
+  jobs:
+  - deployment: AKS
+    environment: 
+      name: 'AKS Prod'
+      resourceType: 'VirtualMachine'
+    variables:
+      - group: AKS-PROD
+      - group: Cluster-Prod
+      - group: Jichi-Web-Config-Prod
+      - group: Jichi-Web-Secrets-Prod
+    strategy:
+      runOnce:
+        deploy:
+          steps:
+            - task: DownloadPipelineArtifact@2
+              displayName: 'Download Build Artifacts'
+              inputs:
+                artifact: DeployArtifact
+                path: $(System.ArtifactsDirectory)
+
+            - task: qetza.replacetokens.replacetokens-task.replacetokens@3
+              displayName: 'Replace tokens in **/deploy/kubernetes'
+              inputs:
+                targetFiles: |
+                     $(System.ArtifactsDirectory)/kubernetes/deployment-front.yml
+                     $(System.ArtifactsDirectory)/kubernetes/configMap.yml
+                     $(System.ArtifactsDirectory)/kubernetes/secrets.yml
+                     $(System.ArtifactsDirectory)/kubernetes/scaler.yml
+                     $(System.ArtifactsDirectory)/kubernetes/networkPolicy.yml
+                     $(System.ArtifactsDirectory)/kubernetes/services.yml
+                     $(System.ArtifactsDirectory)/kubernetes/ingress.yml 
+                actionOnMissing: fail
+                tokenPrefix: '#{{'
+                tokenSuffix: '}}#'
+
+            - task: Bash@3
+              inputs:
+                targetType: 'inline'
+                script: | 
+                  az login --service-principal -u $(SP-USER) -p $(SP-PASS) -t $(SP-TENANT)
+                  az aks get-credentials --resource-group $(AKS-RG) --name $(AKS-NAME) --overwrite-existing --file .kubeconfig-x
+                  export KUBECONFIG=$(pwd)/.kubeconfig-x
+                  export AAD_SERVICE_PRINCIPAL_CLIENT_ID=$(SP-USER)
+                  export AAD_SERVICE_PRINCIPAL_CLIENT_SECRET=$(SP-PASS)
+                  kubelogin convert-kubeconfig -l spn
+                  kubectl apply -f $(System.ArtifactsDirectory)/kubernetes/deployment-front.yml
+                  kubectl apply -f $(System.ArtifactsDirectory)/kubernetes/deployment-front.yml
+                  kubectl apply -f $(System.ArtifactsDirectory)/kubernetes/configMap.yml
+                  kubectl apply -f $(System.ArtifactsDirectory)/kubernetes/secrets.yml
+                  kubectl apply -f $(System.ArtifactsDirectory)/kubernetes/scaler.yml
+                  kubectl apply -f $(System.ArtifactsDirectory)/kubernetes/networkPolicy.yml
+                  kubectl apply -f $(System.ArtifactsDirectory)/kubernetes/services.yml
+                  kubectl apply -f $(System.ArtifactsDirectory)/kubernetes/ingress.yml 

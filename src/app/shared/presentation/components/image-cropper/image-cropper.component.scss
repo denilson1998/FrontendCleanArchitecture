@@ -1,0 +1,28 @@
+
+    input[type="range"]::-webkit-slider-thumb {
+        width: 18px;
+        -webkit-appearance: none;
+          appearance: none;
+        height: 18px;
+        cursor: ew-resize;
+        background: #FAFDFD;
+        box-shadow: -405px 0 0 400px #00C2DC;
+        border-radius: 50%;
+        position: relative;
+        z-index: 1;
+        border: 1px solid #D4E3F3;
+    }
+
+    input[type="range"]::-moz-range-thumb  {
+        width: 18px;
+        -webkit-appearance: none;
+          appearance: none;
+        height: 18px;
+        cursor: ew-resize;
+        background: #FAFDFD;
+        box-shadow: -405px 0 0 400px #00C2DC;
+        border-radius: 50%;
+        position: relative;
+        z-index: 1;
+        border: 1px solid #D4E3F3;
+    }

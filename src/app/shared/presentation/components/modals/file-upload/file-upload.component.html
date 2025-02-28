@@ -1,0 +1,16 @@
+<sarao-modal  [closable]="true" [visible]="state" title="Fotos del producto" styleClass="!rounded-2xl !w-[720px]"   >
+    <div class="pb-6">
+        <p class="s-text-base text-jichi-grayscale-dark-gray">Podés subir 5 fotos como máximo.</p>
+    </div>
+    <div  appDragndrop (fileDropped)="onFileDropped($event)" class=" rounded-2xl relative bg-jichi-grayscale-light-gray border-jichi-grayscale-gray flex flex-col border-dashed border-[2px]  text-center m-auto">
+        <input type="file" #fileDropRef id="fileDropRef" multiple (change)="fileBrowserHandler($event)" accept="{{format}}" class="opacity-0  w-full h-full top-0 left-0 absolute">
+        <div class="flex flex-col justify-center py-4 items-center max-h-full max-w-full">
+           <img class="!w-[155px] h-[128px]" src="assets/illustrations/empty-images.png" alt="" >
+        </div>
+
+        <a class="s-text-xs semibold text-jichi-text-blue">Seleccioná las fotos de tu producto</a>
+        <p class="semibold pt-2 text-[0.9rem]">o arrastrá y soltá aquí</p>
+
+
+        <p class="text-[0.8rem] pt-6 pb-4">PNG o JPG (máx. 2 mb.)</p>
+    </div>

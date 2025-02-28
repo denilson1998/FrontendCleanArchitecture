@@ -1,0 +1,77 @@
+
+<div  class=" justify-center w-full bg-white rounded-[40px]   md:mt-0 sm:max-w-2xl xl:p-0 ">
+
+  <div class="p-8 space-y-6 ">
+    <div class="flex flex-col items-center">
+      <h1 class="text-[26px] font-sans  font-bold leading-[36px]  text-jichi-black ">
+        Registrá tu negocio
+      </h1>
+      <div class="flex flex-col items-center justify-center pt-11" >
+        <img *ngIf="image == ''; else imageTemplate" (click)="imageInput.click()" src="assets/illustrations/businessphoto.png" class="w-32 h-32 cursor-pointer" alt="">
+        <ng-template #imageTemplate >
+          <img  [src]="image" (click)="imageInput.click()" class="w-32 h-32 cursor-pointer rounded-3xl" alt="">
+        </ng-template>
+        <input #imageInput type="file" (change)="fileChangeEvent($event)" style="display:none">
+        
+      </div>
+    </div>
+    <p class="text-sm font-sans font-normal  text-jichi-text-black">
+      Estás a pocos minutos de digitalizar tu negocio. ¡Comencemos!
+    </p>
+
+    <form class=" space-y-4" (keydown.enter)="$event.preventDefault()" (ngSubmit)="submitForm()"
+      [formGroup]="newOrganizationForm">
+
+      <div class="grid md:grid-cols-2 gap-8">
+
+        <jichi-text [formControl]="newOrganizationForm.controls.name" label="Nombre del negocio"></jichi-text>
+
+        <jichi-text type="phone" [formControl]="newOrganizationForm.controls.phoneNumber"
+          label="Número de celular"></jichi-text>
+
+        <jichi-text [formControl]="newOrganizationForm.controls.address" label="Dirección del negocio"></jichi-text>
+
+        <jichi-select [formControl]="newOrganizationForm.controls.currency" label="Tipo de moneda"
+          [options]="currencyOptions"></jichi-select>
+
+        <jichi-text [formControl]="newOrganizationForm.controls.facebookUrl" label="Facebook"></jichi-text>
+
+        <jichi-text [formControl]="newOrganizationForm.controls.instagramUrl" label="Instagram"></jichi-text>
+
+      </div>
+
+      <div>
+        <h1 class="text-[26px] font-sans font-bold leading-[36px]  text-jichi-black ">Rubro*</h1>
+        <div class=" pt-2 pb-4">
+          <sarao-chip class="flex-wrap" [options]="selectedSectors"></sarao-chip>
+        </div>
+        <jichi-text #sectorInput class="mt-5" (keyup.enter)="addSector(this.sectorInput.value)"
+          [formControl]="newOrganizationForm.controls.businessSector" label="Agregar rubro"></jichi-text>
+          <p class="text-sm font-sans font-normal  text-jichi-grayscale-dark-gray">
+            Presiona Enter para agregar un nuevo rubro
+          </p>
+        </div>
+
+      <button type="submit" [disabled]="newOrganizationForm.invalid" class="
+              w-full
+              h-14
+              text-white
+              bg-jichi-main-blue 
+              font-sans 
+              hover:bg-primary-700 
+              focus:ring-4 
+              focus:outline-none 
+              focus:ring-primary-300 
+              font-medium 
+              rounded-full 
+              text-sm px-5 py-2.5 text-center"
+        [ngClass]="{'bg-jichi-grey': newOrganizationForm.invalid}">Continuar</button>
+
+    </form>
+   <!--  <button [hidden]="!isEdit" (click)="goToCatalogue()"
+      class="w-full text-white bg-jichi-main-blue hover:bg-primary-700 focus:ring-4 focus:outline-none focus:ring-primary-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-primary-600 dark:hover:bg-primary-700 dark:focus:ring-primary-800">
+      Ver Catalogo
+    </button> -->
+  </div>
+
+  <jichi-image-cropper *ngIf="showModal" [state]="showModal" [imageEvent]="imageChangedEvent" (onClose)="resetImage($event)"></jichi-image-cropper>

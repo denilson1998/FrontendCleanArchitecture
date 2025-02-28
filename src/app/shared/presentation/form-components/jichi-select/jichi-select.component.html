@@ -1,0 +1,19 @@
+
+<div class="relative z-0 w-full   group">
+
+  <select
+    id="select-input"
+    #input
+    (change)="onChange($event, input.value)"
+    class="block py-1 pl-4 px-0 w-full text-sm text-jichi-grayscale-gray bg-transparent border-0 border-b-2 border-gray-300   focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+  >
+    <option class="text-jichi-text" *ngFor="let option of options" [value]="option.value">
+      {{ option.viewValue }}
+    </option>
+  </select>
+  <label for="select-input"
+  class="peer-focus:font-medium absolute text-sm text-jichi-grayscale-gray duration-300 transform -translate-y-6 scale-75 top-2 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-jichi-blue  peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6">{{
+  label }}<span *ngIf="required && showRequired">*</span>
+</label>
+</div>
+

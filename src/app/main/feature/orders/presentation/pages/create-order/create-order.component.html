@@ -1,0 +1,32 @@
+<!-- 
+
+<div class="flex justify-between w-64" *ngFor="let test of tests">
+    <div>{{test}}</div>
+    <div>{{testt(test)}}</div>
+</div>
+<sarao-input2></sarao-input2> -->
+<sarao-input2 type="decimal" label="Nombre" placeholder="Placeholder tipo texto"></sarao-input2>
+
+
+<!-- <div class="flex">
+    <div class="flex-1">
+        <jichi-section-title label="Vender"></jichi-section-title>
+        
+        <products-list-for-order-creation [createSalesOrderState]="createSalesOrderState"></products-list-for-order-creation>
+    
+    </div>
+    <div class="w-[30rem] ml-12">
+        <cart-drawer [createSalesOrderState]="createSalesOrderState">
+            <sarao-button (click)="createOrder()">Guardar venta</sarao-button>
+        </cart-drawer>
+    </div>
+</div> -->
+
+<sarao-modal
+*ngIf="newOrder"
+title="Editar "
+[(visible)]="newOrderModalIsOpen"
+styleClass="inventarioModal">
+    <order-modal [order]="newOrder"></order-modal>
+</sarao-modal>
+
